@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PASTEBOOKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="COMMENT">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="POST_ID" Type="int" Nullable="false" />
+    <Property Name="POSTER_ID" Type="int" Nullable="false" />
+    <Property Name="CONTENT" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="DATE_CREATED" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FRIEND">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FRIEND_ID" Type="int" />
+    <Property Name="USER_ID" Type="int" />
+    <Property Name="REQUEST" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="BLOCKED" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="CREATED_DATE" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LIKE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="POST_ID" Type="int" />
+    <Property Name="LIKED_BY" Type="int" />
+  </EntityType>
+  <EntityType Name="NOTIFICATION">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="RECEIVER_ID" Type="int" />
+    <Property Name="NOTIF_TYPE" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="SENDER_ID" Type="int" />
+    <Property Name="CREATED_DATE" Type="datetime" Nullable="false" />
+    <Property Name="COMMENT_ID" Type="int" />
+    <Property Name="POST_ID" Type="int" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SEEN" Type="varchar" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="POST">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CREATED_DATE" Type="datetime" Nullable="false" />
+    <Property Name="CONTENT" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="PROFILE_OWNER_ID" Type="int" />
+    <Property Name="POSTER_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="REF_COUNTRY">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="COUNTRY" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="USER">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="USER_NAME" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PASSWORD" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SALT" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="FIRST_NAME" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LAST_NAME" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="BIRTHDAY" Type="date" Nullable="false" />
+    <Property Name="COUNTRY_ID" Type="int" />
+    <Property Name="MOBILE_NO" Type="varchar" MaxLength="50" />
+    <Property Name="GENDER" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="PROFILE_PIC" Type="varbinary(max)" />
+    <Property Name="DATE_CREATED" Type="datetime" Nullable="false" />
+    <Property Name="ABOUT_ME" Type="varchar" MaxLength="2000" />
+    <Property Name="EMAIL_ADDRESS" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__COMMENT__POST_ID__182C9B23">
+    <End Role="POST" Type="Self.POST" Multiplicity="1" />
+    <End Role="COMMENT" Type="Self.COMMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="POST">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="COMMENT">
+        <PropertyRef Name="POST_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__COMMENT__POSTER___1920BF5C">
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
+    <End Role="COMMENT" Type="Self.COMMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="COMMENT">
+        <PropertyRef Name="POSTER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FRIEND__FRIEND_I__239E4DCF">
+    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="FRIEND" Type="Self.FRIEND" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="FRIEND">
+        <PropertyRef Name="FRIEND_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FRIEND__USER_ID__24927208">
+    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="FRIEND" Type="Self.FRIEND" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="FRIEND">
+        <PropertyRef Name="USER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__LIKE__LIKED_BY__2A4B4B5E">
+    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="LIKE" Type="Self.LIKE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LIKE">
+        <PropertyRef Name="LIKED_BY" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__LIKE__POST_ID__29572725">
+    <End Role="POST" Type="Self.POST" Multiplicity="0..1" />
+    <End Role="LIKE" Type="Self.LIKE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="POST">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LIKE">
+        <PropertyRef Name="POST_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__NOTIFICAT__COMME__30F848ED">
+    <End Role="COMMENT" Type="Self.COMMENT" Multiplicity="0..1" />
+    <End Role="NOTIFICATION" Type="Self.NOTIFICATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COMMENT">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NOTIFICATION">
+        <PropertyRef Name="COMMENT_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__NOTIFICAT__POST___31EC6D26">
+    <End Role="POST" Type="Self.POST" Multiplicity="0..1" />
+    <End Role="NOTIFICATION" Type="Self.NOTIFICATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="POST">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NOTIFICATION">
+        <PropertyRef Name="POST_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__NOTIFICAT__RECEI__2F10007B">
+    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="NOTIFICATION" Type="Self.NOTIFICATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NOTIFICATION">
+        <PropertyRef Name="RECEIVER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__NOTIFICAT__SENDE__300424B4">
+    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="NOTIFICATION" Type="Self.NOTIFICATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NOTIFICATION">
+        <PropertyRef Name="SENDER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__POST__POSTER_ID__1367E606">
+    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="POST" Type="Self.POST" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="POST">
+        <PropertyRef Name="POSTER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__POST__PROFILE_OW__1273C1CD">
+    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="POST" Type="Self.POST" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="POST">
+        <PropertyRef Name="PROFILE_OWNER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__USER__COUNTRY_ID__0DAF0CB0">
+    <End Role="REF_COUNTRY" Type="Self.REF_COUNTRY" Multiplicity="0..1" />
+    <End Role="USER" Type="Self.USER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="REF_COUNTRY">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER">
+        <PropertyRef Name="COUNTRY_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PASTEBOOKModelStoreContainer">
+    <EntitySet Name="COMMENT" EntityType="Self.COMMENT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FRIEND" EntityType="Self.FRIEND" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LIKE" EntityType="Self.LIKE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NOTIFICATION" EntityType="Self.NOTIFICATION" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="POST" EntityType="Self.POST" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="REF_COUNTRY" EntityType="Self.REF_COUNTRY" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__COMMENT__POST_ID__182C9B23" Association="Self.FK__COMMENT__POST_ID__182C9B23">
+      <End Role="POST" EntitySet="POST" />
+      <End Role="COMMENT" EntitySet="COMMENT" />
+    </AssociationSet>
+    <AssociationSet Name="FK__COMMENT__POSTER___1920BF5C" Association="Self.FK__COMMENT__POSTER___1920BF5C">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="COMMENT" EntitySet="COMMENT" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FRIEND__FRIEND_I__239E4DCF" Association="Self.FK__FRIEND__FRIEND_I__239E4DCF">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="FRIEND" EntitySet="FRIEND" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FRIEND__USER_ID__24927208" Association="Self.FK__FRIEND__USER_ID__24927208">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="FRIEND" EntitySet="FRIEND" />
+    </AssociationSet>
+    <AssociationSet Name="FK__LIKE__LIKED_BY__2A4B4B5E" Association="Self.FK__LIKE__LIKED_BY__2A4B4B5E">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="LIKE" EntitySet="LIKE" />
+    </AssociationSet>
+    <AssociationSet Name="FK__LIKE__POST_ID__29572725" Association="Self.FK__LIKE__POST_ID__29572725">
+      <End Role="POST" EntitySet="POST" />
+      <End Role="LIKE" EntitySet="LIKE" />
+    </AssociationSet>
+    <AssociationSet Name="FK__NOTIFICAT__COMME__30F848ED" Association="Self.FK__NOTIFICAT__COMME__30F848ED">
+      <End Role="COMMENT" EntitySet="COMMENT" />
+      <End Role="NOTIFICATION" EntitySet="NOTIFICATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK__NOTIFICAT__POST___31EC6D26" Association="Self.FK__NOTIFICAT__POST___31EC6D26">
+      <End Role="POST" EntitySet="POST" />
+      <End Role="NOTIFICATION" EntitySet="NOTIFICATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK__NOTIFICAT__RECEI__2F10007B" Association="Self.FK__NOTIFICAT__RECEI__2F10007B">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="NOTIFICATION" EntitySet="NOTIFICATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK__NOTIFICAT__SENDE__300424B4" Association="Self.FK__NOTIFICAT__SENDE__300424B4">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="NOTIFICATION" EntitySet="NOTIFICATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK__POST__POSTER_ID__1367E606" Association="Self.FK__POST__POSTER_ID__1367E606">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="POST" EntitySet="POST" />
+    </AssociationSet>
+    <AssociationSet Name="FK__POST__PROFILE_OW__1273C1CD" Association="Self.FK__POST__PROFILE_OW__1273C1CD">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="POST" EntitySet="POST" />
+    </AssociationSet>
+    <AssociationSet Name="FK__USER__COUNTRY_ID__0DAF0CB0" Association="Self.FK__USER__COUNTRY_ID__0DAF0CB0">
+      <End Role="REF_COUNTRY" EntitySet="REF_COUNTRY" />
+      <End Role="USER" EntitySet="USER" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
