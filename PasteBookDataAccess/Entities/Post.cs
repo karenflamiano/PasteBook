@@ -8,10 +8,10 @@ namespace PasteBookDataAccess.Entities
 {
     public class Post
     {
-        public int P_ID { get; set; }
-        public DateTime P_CreatedDate { get; set; }
-        public string P_Content { get; set; }
-        public int P_ProfileOwnerID { get; set; }
-        public int P_PosterID { get; set; }
+        public int ID { get; set; }
+        public DateTime CREATED_DATE { get; set; }
+        public string CONTENT { get; set; }
+        public int PROFILE_OWNER_ID { get; set; }
+        public int POSTER_ID { get; set; }
     }
 }

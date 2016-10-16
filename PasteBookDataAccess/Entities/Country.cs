@@ -8,7 +8,7 @@ namespace PasteBookDataAccess.Entities
 {
     public class Country
     {
-        public int C_ID { get; set; }
-        public string C_Country { get; set; }
+        public int ID { get; set; }
+        public string COUNTRY { get; set; }
     }
 }

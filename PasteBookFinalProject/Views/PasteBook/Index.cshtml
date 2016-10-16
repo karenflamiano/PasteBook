@@ -1,31 +1,200 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model PasteBookFinalProject.Models.UserModel
+
+<head>
+    <link rel="stylesheet" href="Content/font-awesome/css/font-awesome.min.css">
+</head>
+
+@using (Html.BeginForm("GetBasicView", "SignUp", FormMethod.Post))
+{
+    <!-- Top content -->
+    <div class="top-content">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 text">
+                    <h1><img src="~/Content/images/finallogo.png"></h1>
+                    <div class="description">
+                        <p>
+                            Welcome to pastebook! You can now log in using your account.
+                        </p>
+                        <p>
+                            Don't have an account? Feel free to create one.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1 show-forms">
+                    <span class="show-register-form active">Register</span>
+                    <span class="show-forms-divider">/</span>
+                    <span class="show-login-form">Login</span>
+                </div>
+            </div>
+
+            <div class="row register-form form-group required">
+                <div class="col-sm-4 col-sm-offset-1">
+
+                    <div class="form-group required">
+                        @*@Html.LabelFor(model => model.FIRST_NAME, new { @class = "control-label col-md-2"})*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "r-form-first-name form-control ", id = "txtFirstName", placeholder = "First name" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                            <span id="msgForEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        @*@Html.LabelFor(model => model.LAST_NAME, new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "r-form-first-name form-control ", id = "txtLastName", placeholder = "Last name" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                            <span id="msgForEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        @*@Html.LabelFor(model => model.BIRTHDAY, new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "r-form-first-name form-control ", id = "txtBirthday", @type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") } })
+                            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                            <span id="msgForEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        @*@Html.LabelFor(model => model.BIRTHDAY, new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(m => m.Gender, "Male")
+                            @Html.RadioButtonFor(m => m.Gender, "Female")
+                            @Html.RadioButtonFor(m => m.Gender, "Undefined")
+                            <span id="msgForEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group required">
+                        @*@Html.LabelFor(model => model.COUNTRY_ID, new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            viewBag.
+                            @Html.DropDownList(v)
+                           @* @Html.DropDownList(model => model.Country, new { htmlAttributes = new { @class = "r-form-first-name form-control ", id = "txtCountry", placeholder = "Country" } })*@
+                            @Html.ValidationMessageFor(model => model.CountryID, "", new { @class = "text-danger" })
+                            <span id="msgForEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        @*@Html.LabelFor(model => model.MOBILE_NO, new { @class = "control-label col-md-2"})*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.MobileNumber, new { htmlAttributes = new { @class = "r-form-first-name form-control ", id = "txtMobileNo", type = "number", placeholder = "Mobile Number" } })
+                            @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+                            <span id="msgForEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-sm-4 col-sm-offset-1">
+
+                    <div class="form-group required">
+                        <label class="sr-only" for="r-form-first-name">Username</label>
+                        <input type="text" name="r-form-first-name" placeholder="Username" class="r-form-first-name form-control" id="r-form-first-name">
+                    </div>
+
+                    <div class="form-group required">
+                        <label class="sr-only" for="r-form-last-name">Password</label>
+                        <input type="text" name="r-form-last-name" placeholder="Password" class="r-form-last-name form-control" id="r-form-last-name">
+                    </div>
+
+                    <div class="form-group required">
+                        <label class="sr-only" for="r-form-email">Confirm Password</label>
+                        <input type="text" name="r-form-email" placeholder="Confirm Password" class="r-form-email form-control" id="r-form-email">
+                    </div>
+                    <button type="submit" class="btn" id="btnSignUp">Sign me up!</button>
+                </div>
+            </div>
+
+            <div class="row login-form">
+                <div class="col-sm-4 col-sm-offset-1">
+
+                    <div class="form-group required">
+                        <label class="sr-only" for="l-form-username">Username</label>
+                        <input type="text" name="l-form-username" placeholder="Username" class="l-form-username form-control" id="l-form-username">
+                    </div>
+                    <div class="form-group required">
+                        <label class="sr-only" for="l-form-password">Password</label>
+                        <input type="password" name="l-form-password" placeholder="Password" class="l-form-password form-control" id="l-form-password">
+                    </div>
+                    <button type="submit" class="btn">Sign in!</button>
+
+                </div>
+                <div class="col-sm-6 forms-right-icons">
+                    <div class="row">
+                        <div class="col-sm-2 icon"><i class="fa fa-user"></i></div>
+                        <div class="col-sm-10">
+                            <h3>New Features</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 icon"><i class="fa fa-eye"></i></div>
+                        <div class="col-sm-10">
+                            <h3>Easy To Use</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 icon"><i class="fa fa-twitter"></i></div>
+                        <div class="col-sm-10">
+                            <h3>Social Integrated</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 }
 
-<div class="jumbotron">
-    <h1>Paste Book</h1>
-    <p class="lead"></p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 
-@*<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>*@
+    <script>
+        $(document).ready(function () {
+            var data = {
+                email: $(this).val()
+            }
+
+            $.ajax({
+                url: checkEmailUrl,
+                data: data,
+                type: 'GET',
+                success: function (data) {
+                    CheckEmail(data);
+                },
+                error: function () {
+                    alert('Something went wrong')
+                }
+
+            })
+
+            function CheckEmail(data) {
+                if (data.Status == true) {
+                    $('#msgForEmail').html('Email already exists.');
+                    $('#msgForEmail').css('display', 'block');
+                } else {
+                    $('#msgForEmail').css('display', 'none');
+                }
+            }
+
+
+        });
+
+    </script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/scripts.js"></script>
+}

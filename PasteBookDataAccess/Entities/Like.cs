@@ -8,8 +8,8 @@ namespace PasteBookDataAccess.Entities
 {
     public class Like
     {
-        public int L_ID { get; set; }
-        public int L_PostID { get; set; }
-        public int L_LikedBy { get; set; }
+        public int ID { get; set; }
+        public int POST_ID { get; set; }
+        public int LIKED_BY { get; set; }
     }
 }

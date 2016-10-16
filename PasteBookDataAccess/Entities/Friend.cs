@@ -8,11 +8,11 @@ namespace PasteBookDataAccess.Entities
 {
     public class Friend
     {
-        public int F_ID { get; set; }
-        public int F_UserID { get; set; }
-        public int F_FriendID { get; set; }
-        public char F_Request { get; set; }
-        public char F_Blocked { get; set; }
-        public DateTime F_CreatedDate { get; set; }
+        public int ID { get; set; }
+        public int FRIEND_ID { get; set; }
+        public int USER_ID { get; set; }
+        public char REQUEST { get; set; }
+        public char BLOCKED { get; set; }
+        public DateTime CREATED_DATE { get; set; }
     }
 }

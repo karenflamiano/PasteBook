@@ -8,19 +8,19 @@ namespace PasteBookDataAccess.Entities
 {
     public class User
     {
-        public int U_ID { get; set; }
-        public string U_UserName { get; set; }
-        public string U_Password { get; set; }
-        public string U_Salt { get; set; }
-        public string U_FirstName { get; set; }
-        public string U_LastName { get; set; }
-        public DateTime U_BirthDate { get; set; }
-        public int U_CountryID { get; set; }
-        public string U_MobileNumber { get; set; }
-        public string U_Gender { get; set; }
-        public byte U_ProfilePicture { get; set; }
-        public DateTime U_DateCreated { get; set; }
-        public string U_AboutMe { get; set; }
-        public string U_EmailAddress { get; set; }
+        public int ID { get; set; }
+        public string USER_NAME { get; set; }
+        public string PASSWORD { get; set; }
+        public string SALT { get; set; }
+        public string FIRST_NAME { get; set; }
+        public string LAST_NAME { get; set; }
+        public DateTime BIRTHDAY { get; set; }
+        public int COUNTRY_ID { get; set; }
+        public string MOBILE_NO { get; set; }
+        public char GENDER { get; set; }
+        public byte[] PROFILE_PIC { get; set; }
+        public DateTime DATE_CREATED { get; set; }
+        public string ABOUT_ME { get; set; }
+        public string EMAIL_ADDRESS { get; set; }
     }
 }

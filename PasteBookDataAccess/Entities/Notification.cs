@@ -8,13 +8,13 @@ namespace PasteBookDataAccess.Entities
 {
     public class Notification
     {
-        public int N_ReceiverID { get; set; }
-        public char N_NotifType { get; set; }
-        public int N_SenderID { get; set; }
-        public DateTime N_CreatedDate { get; set; }
-        public int N_CommentID { get; set; }
-        public int N_PostID { get; set; }
-        public int N_ID { get; set; }
-        public string Seen { get; set; }
+        public int RECEIVER_ID { get; set; }
+        public char NOTIF_TYPE { get; set; }
+        public int SENDER_ID { get; set; }
+        public DateTime CREATED_DATE { get; set; }
+        public int COMMENT_ID { get; set; }
+        public int POST_ID { get; set; }
+        public int ID { get; set; }
+        public string SEEN { get; set; }
     }
 }
