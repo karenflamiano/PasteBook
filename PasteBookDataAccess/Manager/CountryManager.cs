@@ -21,12 +21,10 @@ namespace PasteBookDataAccess.Manager
             {
                 using (var context = new PASTEBOOKEntities())
                 {
-                    var list = context.REF_COUNTRY.ToList();
-                    foreach (var item in list)
+                    foreach (var item in context.REF_COUNTRY.ToList())
                     {
                         listOfCountries.Add(Mapper.MapDBCountryTableToCountryEntity(item));
                     }
-                   
                 }
             }
             catch (Exception ex)

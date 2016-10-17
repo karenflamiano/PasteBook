@@ -5,9 +5,9 @@ using System.Web;
 
 namespace PasteBookFinalProject.Models
 {
-    public class CountryModel
+    public class LoginViewModel
     {
-        public int CountryID { get; set; }
-        public string CountryName { get; set; }
+        public UserLoginModel loginModel { get; set; }
+        public UserModel userModel { get; set; }
     }
 }

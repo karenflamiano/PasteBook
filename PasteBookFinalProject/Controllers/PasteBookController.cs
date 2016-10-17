@@ -12,35 +12,60 @@ namespace PasteBookFinalProject.Controllers
     public class PasteBookController : Controller
     {
         MVCManager manager = new MVCManager();
+        static LoginViewModel mainModel = new LoginViewModel();
+        [HttpGet]
+        public ActionResult Home()
+        {
+            if (Session["CountryList"] == null)
+            {
+                Session["CountryList"] = new SelectList(manager.GetCountry(), "CountryID", "CountryName");
+            }
+            
+            return View();
+        }
 
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.CountryList = manager.GetCountry();
             return View();
         }
 
-        //public JsonResult AddUser(string username, string password)
-        //{
-        //    UserModel userModel = new UserModel();
-
-        //    int result = MVCUserManager.AddUser(userModel);
-
-        //    return Json(new { result = result });
-        //}
-
-
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult Index([Bind(Include = "UserModel")]LoginViewModel model)
         {
-            ViewBag.Message = "Your application description page.";
-            return View();
+            if (manager.CheckEmailAddress(model.userModel.EmailAddress))
+            {
+                ModelState.AddModelError("EmailAddress", "Email Address already exists.");
+            }
+
+            if (manager.CheckUsername(model.userModel.Username))
+            {
+                ModelState.AddModelError("Username", "Username already exists.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                manager.AddUser(model.userModel);
+            }
+            return View("Home");
+
         }
 
-        public ActionResult Contact()
+        public ActionResult Login([Bind(Include ="UserLoginModel")] LoginViewModel model)
         {
-            ViewBag.Message = "Your contact page.";
+            //if (manager.LoginUser(model.LoginUser))
+            //{
+            //    Session["User"] = model.LoginUser.EmailAddress;
+            //    return View();
+            //}
+            //else
+            //{
+            //    ModelState.AddModelError("LoginUser.Password", "Invalid Username or Password");
+            //    return View("Index", modelForCountry);
+            //}
 
             return View();
+
         }
 
     }

@@ -54,16 +54,15 @@ namespace PasteBookFinalProject.Models
         [StringLength(15, ErrorMessage = "Maximum length for {0} is 15 characters only.")]
         public string Password { get; set; }
 
+        public string Salt { get; set; }
+
         [Required]
-        [Compare("Password", ErrorMessage = "{0} do not match the Password typed above.")]
+        [Compare("Password", ErrorMessage = "{0} do not match the Password.")]
         public string ConfirmPassword { get; set; }
 
         [StringLength(2000, ErrorMessage = "Maximum length for {0} is 2000 characters only.")]
         public string AboutMe { get; set; }
-
-
-        public byte[] ProfilePicture { get; set; }
-
+        
 
 
     }

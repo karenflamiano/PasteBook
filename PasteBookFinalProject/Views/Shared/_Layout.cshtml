@@ -16,14 +16,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Pastebook", "Index", "PasteBook", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Pastebook", "Home", "PasteBook", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("About", "About", "PasteBook")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "PasteBook")</li>
-                </ul>
-            </div>
+
+           
+                <div class="navbar-collapse collapse">
+                    <div class="form-inline pull-right">
+                        <ul class="nav navbar-nav">
+                           @RenderSection("Login", required:false)
+                        </ul>
+                    </div>
+                </div>
+
+           
+
+
+
         </div>
     </div>
     <div class="container body-content">

@@ -19,7 +19,7 @@ namespace PasteBookDataAccess
             //gawan ng password hash, and salt
             user.SALT = SaltGenerator.GetSaltString();
             var stringPassword = user.PASSWORD;
-            user.PASSWORD = pwdManager.GetPasswordHashAndSalt(stringPassword + user.SALT);
+            user.PASSWORD = pwdManager.GetPasswordHash(stringPassword + user.SALT);
             manager.AddUsertoDB(user);
         }
 
@@ -29,5 +29,18 @@ namespace PasteBookDataAccess
             return countryManager.ListOfCountry();
         }
 
+        public bool CheckIfUsernameExists(string username)
+        {
+            bool returnValue;
+            returnValue = manager.CheckIfUsernameExists(username);
+            return returnValue;
+        }
+
+        public bool CheckIfEmailAddressExists(string emailAddress)
+        {
+            bool returnValue;
+            returnValue = manager.CheckIfEmailExists(emailAddress);
+            return returnValue;
+        }
     }
 }

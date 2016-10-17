@@ -19,9 +19,10 @@ namespace PasteBookDataAccess.Manager
             {
                 using (var context = new PASTEBOOKEntities())
                 {
+                    user.DATE_CREATED = DateTime.Now;
+                    user.BIRTHDAY = user.BIRTHDAY.Date;
                     context.USERs.Add(Mapper.MapUserEntityToDBUserTable(user));
                     result = context.SaveChanges();
-
                 }
             }
             catch (Exception ex)
@@ -32,5 +33,38 @@ namespace PasteBookDataAccess.Manager
             return result;
 
         }
+        
+        public bool CheckIfUsernameExists (string username)
+        {
+            try
+            {
+                using (var context = new PASTEBOOKEntities())
+                {
+                    return context.USERs.Any(x => x.USER_NAME == username);
+                }
+            }
+            catch (Exception ex)
+            {
+                ListOfException.Add(ex);
+                return false;
+            }
+        }
+
+        public bool CheckIfEmailExists(string emailAddress)
+        {
+            try
+            {
+                using (var context = new PASTEBOOKEntities())
+                {
+                    return context.USERs.Any(x => x.EMAIL_ADDRESS == emailAddress);
+                }
+            }
+            catch (Exception ex)
+            {
+                ListOfException.Add(ex);
+                return false;
+            }
+        }
     }
+    
 }
