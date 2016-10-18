@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using PasteBookDataAccess;
-using PasteBookFinalProject.Mappers;
+using PasteBookFinalProject;
 
 namespace PasteBookFinalProject.Managers
 {
@@ -18,6 +18,12 @@ namespace PasteBookFinalProject.Managers
             return 0;
         }
 
+        public UserModel GetUserDetails(string emailAddress)
+        {
+            return MVCMapper.MapDAUserEntitiesToMVCUserModel(dataAccess.GetUserDetails(emailAddress)); 
+        }
+
+
         public List<CountryModel> GetCountry()
         {
             List<CountryModel> listOfCountries = new List<CountryModel>();
@@ -27,6 +33,7 @@ namespace PasteBookFinalProject.Managers
             }
             return listOfCountries;
         }
+
         public bool CheckUsername(string username)
         {
             bool checkUsername;
@@ -41,22 +48,38 @@ namespace PasteBookFinalProject.Managers
             return checkUsername;
         }
 
-        //public bool CheckUserCredentials(UserCredentialModel user)
-        //{
-        //    if (user != null)
-        //    {
-        //        var currentUser = manager.Login(user.EmailAddress);
-        //        if (currentUser != null)
-        //        {
-        //            bool result = pManager.IsPasswordMatch(user.Password, currentUser.Salt, currentUser.PasswordHash);
-        //            return result;
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    return false;
-        //}
+        public bool CheckUserCredentials(LoginViewModel userLogin)
+        {
+            if (userLogin != null)
+            {
+                if (dataAccess.CheckIfEmailAddressExists(userLogin.LoginModel.LoginEmail))
+                {
+                    bool result = dataAccess.PasswordInputAndPasswordFromDBMatch(userLogin.LoginModel.LoginEmail, userLogin.LoginModel.LoginPassword);
+                    return result;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public int GetUserIDUsingEmail(string emailAdress)
+        {
+            return dataAccess.GetUserDetailsUsingEmail(emailAdress);
+        }
+
+        public List<PostModel> GetPosts()
+        {
+            List<PostModel> listOfPosts = new List<PostModel>();
+            foreach (var item in dataAccess.GetPosts())
+            {
+                listOfPosts.Add(MVCMapper.(item));
+            }
+            return listOfCountries;
+        }
+
+
     }
 }

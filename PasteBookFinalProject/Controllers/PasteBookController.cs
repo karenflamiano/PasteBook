@@ -12,9 +12,11 @@ namespace PasteBookFinalProject.Controllers
     public class PasteBookController : Controller
     {
         MVCManager manager = new MVCManager();
+        
         static LoginViewModel mainModel = new LoginViewModel();
+
         [HttpGet]
-        public ActionResult Home()
+        public ActionResult HomeView()
         {
             if (Session["CountryList"] == null)
             {
@@ -33,40 +35,76 @@ namespace PasteBookFinalProject.Controllers
         [HttpPost]
         public ActionResult Index([Bind(Include = "UserModel")]LoginViewModel model)
         {
-            if (manager.CheckEmailAddress(model.userModel.EmailAddress))
+            if (manager.CheckEmailAddress(model.UserLoginModel.EmailAddress))
             {
                 ModelState.AddModelError("EmailAddress", "Email Address already exists.");
             }
 
-            if (manager.CheckUsername(model.userModel.Username))
+            if (manager.CheckUsername(model.UserLoginModel.Username))
             {
                 ModelState.AddModelError("Username", "Username already exists.");
             }
 
             if (ModelState.IsValid)
             {
-                manager.AddUser(model.userModel);
+                manager.AddUser(model.UserLoginModel);
             }
-            return View("Home");
+            return View("HomeView");
 
         }
-
-        public ActionResult Login([Bind(Include ="UserLoginModel")] LoginViewModel model)
+        
+        [HttpGet]
+        public ActionResult AccountView()
         {
-            //if (manager.LoginUser(model.LoginUser))
-            //{
-            //    Session["User"] = model.LoginUser.EmailAddress;
-            //    return View();
-            //}
-            //else
-            //{
-            //    ModelState.AddModelError("LoginUser.Password", "Invalid Username or Password");
-            //    return View("Index", modelForCountry);
-            //}
-
             return View();
-
         }
 
+        [HttpPost]
+        public ActionResult AccountView([Bind(Include = "LoginModel")] LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (manager.CheckUserCredentials(model))
+                {
+                    Session["User"] = model.LoginModel.LoginEmail;
+                    UserModel userModel = manager.GetUserDetails(Session["User"].ToString());
+                    Session["modelSession"] = userModel;
+                    return View();
+                }
+                else
+                {
+                    ModelState.AddModelError("LoginModel.LoginPassword", "Invalid Username or Password");
+                    return View("HomeView");
+                }
+            }
+            else
+            {
+                return View("HomeView");
+            }
+           
+        }
+
+        [HttpPost]
+        public ActionResult GeneratePost(PostLoginViewModel model)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ProfileView()
+        {
+            UserModel userModel = (UserModel)Session["modelSession"];
+            return View(userModel);
+        }
+
+        public ActionResult FriendsView()
+        {
+            return View();
+        }
+
+        public ActionResult NotificationsView()
+        {
+            return View();
+        }
     }
 }

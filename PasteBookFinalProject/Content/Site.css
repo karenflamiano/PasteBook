@@ -20,6 +20,7 @@
     margin-right:10px;
     margin-bottom: 10px;
     margin-left:10px;
+    color:#F5FFFA;
 }
 
 /***** Override the default bootstrap behavior where horizontal description lists 
@@ -33,12 +34,21 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 100%;
 }
 
 .register{
     margin-left:10px;
 }
+#accountProfile{
+    margin-top: 50px;
+}
+
+#userPicture{
+    width:200px;
+    height:200px;
+}
+
 
 
 

@@ -11,14 +11,16 @@ namespace PasteBookDataAccess.Manager
     {
         public string GetPasswordHash(string password)
         {
-            // Let us use SHA256 algorithm to 
-            // generate the hash from this salted password
             SHA256 sha = new SHA256CryptoServiceProvider();
             byte[] dataBytes = Utility.GetBytes(password);
             byte[] resultBytes = sha.ComputeHash(dataBytes);
-
-            // return the hash string to the caller
             return Utility.GetString(resultBytes);
+        }
+
+        public bool IsPasswordMatch(string password, string salt, string hash)
+        {
+            string finalString = password + salt;
+            return hash == GetPasswordHash(finalString);
         }
     }
 
@@ -33,16 +35,9 @@ namespace PasteBookDataAccess.Manager
 
         public static string GetSaltString()
         {
-            // Lets create a byte array to store the salt bytes
             byte[] saltBytes = new byte[SALT_SIZE];
-
-            // lets generate the salt in the byte array
             cryptoServiceProvider.GetNonZeroBytes(saltBytes);
-
-            // Let us get some string representation for this salt
             string saltString = Utility.GetString(saltBytes);
-
-            // Now we have our salt string ready lets return it to the caller
             return saltString;
         }
     }
@@ -60,10 +55,6 @@ namespace PasteBookDataAccess.Manager
         }
     }
 
-    //public bool PasswordMatch(string password, string hash, string salt)
-    //{
-    //    string newPassword == password + salt;
-    //    return hash == GetPasswordHash(hash);
-    //}
+   
 
 }

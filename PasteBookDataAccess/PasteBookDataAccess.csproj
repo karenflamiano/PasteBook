@@ -58,7 +58,10 @@
     <Compile Include="Entities\Post.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Manager\CountryManager.cs" />
-    <Compile Include="Manager\GetUserAccount.cs" />
+    <Compile Include="Manager\GeneratePostManager.cs" />
+    <Compile Include="Manager\GetAllPostsManager.cs" />
+    <Compile Include="Manager\GetUserAccountManager.cs" />
+    <Compile Include="Manager\GetUserDetailsUsingEmailAddress.cs" />
     <Compile Include="Manager\PasswordManager.cs" />
     <Compile Include="Manager\UserManager.cs" />
     <Compile Include="Mappers\Mapper.cs" />

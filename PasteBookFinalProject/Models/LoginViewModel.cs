@@ -7,7 +7,7 @@ namespace PasteBookFinalProject.Models
 {
     public class LoginViewModel
     {
-        public UserLoginModel loginModel { get; set; }
-        public UserModel userModel { get; set; }
+        public UserLoginModel LoginModel { get; set; }
+        public UserModel UserLoginModel { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PasteBookFinalProject.Mappers
+namespace PasteBookFinalProject
 {
     public static class MVCMapper
     {
@@ -67,6 +67,33 @@ namespace PasteBookFinalProject.Mappers
                 COUNTRY = countryModel.CountryName
             };
             return countryEntity;
+        }
+
+        public static PostModel MapPostDAEntitiesToMVCPostModel(Post postEntity)
+        {
+            PostModel postModel = new PostModel()
+            {
+                PostContent = postEntity.CONTENT,
+                PostCreatedDate = postEntity.CREATED_DATE,
+                PostID = postEntity.ID,
+                PostPosterID = postEntity.POSTER_ID,
+                PostProfileOwnerID = postEntity.PROFILE_OWNER_ID
+            };
+
+            return postModel;
+        }
+
+        public static Post MapMVCPostModelToPostDAEntites(PostModel postModel)
+        {
+            Post postEntity = new Post()
+            {
+                CONTENT = postModel.PostContent,
+                CREATED_DATE = postModel.PostCreatedDate,
+                ID = postModel.PostID,
+                POSTER_ID = postModel.PostPosterID,
+                PROFILE_OWNER_ID = postModel.PostProfileOwnerID
+            };
+            return postEntity;
         }
 
 

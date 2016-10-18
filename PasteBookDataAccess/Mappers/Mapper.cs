@@ -75,5 +75,31 @@ namespace PasteBookDataAccess.Mappers
             };
             return countryEntity;
         }
+
+        public static POST MapPostEntityToDBPostTable(Post postEntity)
+        {
+            POST tblPost = new POST()
+            {
+                ID = postEntity.ID,
+                CREATED_DATE = postEntity.CREATED_DATE,
+                CONTENT = postEntity.CONTENT,
+                PROFILE_OWNER_ID = postEntity.PROFILE_OWNER_ID,
+                POSTER_ID = postEntity.POSTER_ID
+            };
+            return tblPost;
+        }
+
+        public static Post MapDBPostTableToPostEntity(POST postTable)
+        {
+            Post postEntity = new Post()
+            {
+                ID = postTable.ID,
+                CREATED_DATE = postTable.CREATED_DATE,
+                CONTENT = postTable.CONTENT,
+                PROFILE_OWNER_ID = (int)postTable.PROFILE_OWNER_ID,
+                POSTER_ID = (int)postTable.POSTER_ID
+            };
+            return postEntity;
+        }
     }
 }
