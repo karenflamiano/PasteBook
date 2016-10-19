@@ -13,6 +13,7 @@ namespace PasteBookFinalProject
         {
             UserModel userModel = new UserModel()
             {
+                ID = userEntity.ID,  
                 Username = userEntity.USER_NAME,
                 Password = userEntity.PASSWORD,
                 FirstName = userEntity.FIRST_NAME,
@@ -33,6 +34,7 @@ namespace PasteBookFinalProject
         {
             User userEntity = new User()
             {
+                ID = userModel.ID,
                 USER_NAME = userModel.Username,
                 PASSWORD = userModel.Password,
                 FIRST_NAME = userModel.FirstName,
@@ -82,6 +84,24 @@ namespace PasteBookFinalProject
 
             return postModel;
         }
+
+        //public static List<PostModel> MapPostDAEntitiesToMVCPostModel(List<Post> post)
+        //{
+        //    List<PostModel> entityPost = new List<PostModel>();
+        //    foreach (var item in entityPost)
+        //    {
+        //        entityPost.Add(new PostModel()
+        //        {
+        //            PostID = item.PostID,
+        //            PostPosterID = item.PostPosterID,
+        //            CONTENT = item.CONTENT,
+        //            CREATED_DATE = item.CREATED_DATE,
+        //            PROFILE_OWNER_ID = item.PROFILE_OWNER_ID
+        //        });
+        //    }
+        //    return entityPost;
+        //}
+
 
         public static Post MapMVCPostModelToPostDAEntites(PostModel postModel)
         {

@@ -13,9 +13,10 @@ namespace PasteBookDataAccess
     {
         UserManager manager = new UserManager();
         PasswordManager pwdManager = new PasswordManager();
-        GetUserAccountManager account = new GetUserAccountManager();
-        GetUserDetailsUsingEmailAddress getDetails = new GetUserDetailsUsingEmailAddress();
+        GetUserDetailsUsingEmailAddress account = new GetUserDetailsUsingEmailAddress();
         GeneratePostManager postManager = new GeneratePostManager();
+        GetUserIDUsingEmailAddress getUserID = new GetUserIDUsingEmailAddress();
+        GetAllPostsManager getPostManager = new GetAllPostsManager();
 
         public void AddUser(User user)
         {
@@ -56,21 +57,21 @@ namespace PasteBookDataAccess
             User user2 = account.GetAccountEmailAddress(email);
             return result = pwdManager.IsPasswordMatch(password, user2.SALT, user2.PASSWORD);
         }
-
-        public int GetUserDetailsUsingEmail(string email)
-        {
-            return getDetails.GetAccountEmailAddress(email);
-        }
+        
 
         public void AddPost(Post post)
         {
             postManager.AddPostToDB(post);
         }
 
-        public List<Post> GetPosts()
+        public List<Post> GetPosts(int ID)
         {
-            GetAllPostsManager getAllPosts = new GetAllPostsManager();
-            return getAllPosts.ListOfPosts();
+            return getPostManager.ListOfPosts(ID);
+        }
+
+        public int GetIDUsingEmailAddress(string emailAddress)
+        {
+            return getUserID.GetAccountEmailAddress(emailAddress);
         }
     }
 }

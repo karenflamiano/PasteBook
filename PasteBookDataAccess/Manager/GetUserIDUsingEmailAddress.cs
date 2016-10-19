@@ -1,6 +1,4 @@
-﻿using PasteBookDataAccess.Entities;
-using PasteBookDataAccess.Mappers;
-using PasteBookEntityFramework;
+﻿using PasteBookEntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,20 +7,19 @@ using System.Threading.Tasks;
 
 namespace PasteBookDataAccess.Manager
 {
-    public class GetUserDetailsUsingEmailAddress
+   public class GetUserIDUsingEmailAddress
     {
         List<Exception> ListOfException = new List<Exception>();
-
-        public User GetAccountEmailAddress(string emailAddress)
+        public int GetAccountEmailAddress(string emailAddress)
         {
-            User result = new User();
+            int result = 0;
             try
             {
                 using (var context = new PASTEBOOKEntities1())
                 {
-                    result = Mapper.MapDBUserTableToUserEntity(context.USERs.Where(x => x.EMAIL_ADDRESS == emailAddress).SingleOrDefault());
+                    result = (context.USERs.Where(x => x.EMAIL_ADDRESS == emailAddress).Select(x => x.ID).Single());
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -30,6 +27,5 @@ namespace PasteBookDataAccess.Manager
             }
             return result;
         }
-        
     }
 }

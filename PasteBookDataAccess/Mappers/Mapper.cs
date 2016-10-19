@@ -101,5 +101,77 @@ namespace PasteBookDataAccess.Mappers
             };
             return postEntity;
         }
+
+        public static FRIEND MapFriendEntityToFriendDB(Friend friendEntity)
+        {
+            FRIEND tblFriend = new FRIEND()
+            {
+                ID = friendEntity.ID,
+                FRIEND_ID = friendEntity.FRIEND_ID,
+                USER_ID = friendEntity.USER_ID,
+                REQUEST = friendEntity.REQUEST.ToString(),
+                BLOCKED = friendEntity.BLOCKED.ToString(),
+                CREATED_DATE = friendEntity.CREATED_DATE
+            };
+            return tblFriend;
+        }
+
+        public static Friend MapFriendDBToFriendEntity(FRIEND friendTable)
+        {
+            Friend friendEntity = new Friend()
+            {
+                ID = friendTable.ID,
+                FRIEND_ID = friendTable.FRIEND_ID,
+                USER_ID = friendTable.USER_ID,
+                REQUEST = Convert.ToChar(friendTable.REQUEST),
+                BLOCKED = Convert.ToChar(friendTable.BLOCKED),
+                CREATED_DATE = friendTable.CREATED_DATE 
+            };
+            return friendEntity;
+        }
+
+        public static List<User> MapUserListFromDB(List<USER> user)
+        {
+            List<User> userList = new List<User>();
+            foreach (var item in user)
+            {
+                userList.Add(new User()
+                {
+                    ID = item.ID,
+                    ABOUT_ME = item.ABOUT_ME,
+                    BIRTHDAY = item.BIRTHDAY,
+                    DATE_CREATED = item.DATE_CREATED,
+                    EMAIL_ADDRESS = item.EMAIL_ADDRESS,
+                    FIRST_NAME = item.FIRST_NAME,
+                    GENDER = Convert.ToChar(item.GENDER),
+                    LAST_NAME = item.LAST_NAME,
+                    MOBILE_NO = item.MOBILE_NO,
+                    PASSWORD = item.PASSWORD,
+                    PROFILE_PIC = item.PROFILE_PIC,
+                    SALT = item.SALT,
+                    USER_NAME = item.USER_NAME
+                });
+            }
+
+            return userList;
+        }
+
+        public static List<Post> MapRetrievePostFromDB(List<POST> post)
+        {
+            List<Post> entityPost = new List<Post>();
+            foreach (var item in post)
+            {
+                entityPost.Add(new Post()
+                {
+                    ID = item.ID,
+                    POSTER_ID = item.POSTER_ID,
+                    CONTENT = item.CONTENT,
+                    CREATED_DATE = item.CREATED_DATE,
+                    PROFILE_OWNER_ID = item.PROFILE_OWNER_ID
+                });
+            }
+            return entityPost;
+        }
+
     }
 }

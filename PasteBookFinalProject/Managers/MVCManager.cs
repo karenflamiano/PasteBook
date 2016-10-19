@@ -23,6 +23,11 @@ namespace PasteBookFinalProject.Managers
             return MVCMapper.MapDAUserEntitiesToMVCUserModel(dataAccess.GetUserDetails(emailAddress)); 
         }
 
+        public int GetUserID(string emailAddress)
+        {
+            return dataAccess.GetIDUsingEmailAddress(emailAddress);
+        }
+
 
         public List<CountryModel> GetCountry()
         {
@@ -64,22 +69,24 @@ namespace PasteBookFinalProject.Managers
             }
             return false;
         }
+        
 
-        public int GetUserIDUsingEmail(string emailAdress)
-        {
-            return dataAccess.GetUserDetailsUsingEmail(emailAdress);
-        }
-
-        public List<PostModel> GetPosts()
+        public List<PostModel> GetPosts(int ID)
         {
             List<PostModel> listOfPosts = new List<PostModel>();
-            foreach (var item in dataAccess.GetPosts())
+            foreach (var item in dataAccess.GetPosts(ID))
             {
-                listOfPosts.Add(MVCMapper.(item));
+                listOfPosts.Add(MVCMapper.MapPostDAEntitiesToMVCPostModel(item));
             }
-            return listOfCountries;
+            return listOfPosts;
         }
 
+        public int AddPost(PostModel post)
+        {
+            dataAccess.AddPost(MVCMapper.MapMVCPostModelToPostDAEntites(post));
+            return 0;
+        }
+        
 
     }
 }

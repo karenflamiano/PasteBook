@@ -1,0 +1,19 @@
+﻿@model IEnumerable<PasteBookFinalProject.Models.PostModel>
+
+@foreach (var item in Model)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-left">
+            @Session["Username"]
+            @Html.DisplayFor(modelItem => item.PostCreatedDate)
+        </div>
+        <div class="panel-body text-left">
+            @Html.DisplayFor(modelItem => item.PostContent)
+        </div>
+        <div class="panel-footer text-left">
+            <button type="submit" class="btn btn-primary">LIKE</button>
+            <button type="submit" class="btn btn-primary">COMMENT</button>
+        </div>
+    </div>
+
+}

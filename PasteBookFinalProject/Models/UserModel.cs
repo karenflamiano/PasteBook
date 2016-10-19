@@ -9,6 +9,9 @@ namespace PasteBookFinalProject.Models
 {
     public class UserModel
     {
+        public int ID { get; set; }
+
+
         [Required]
         [RegularExpression("([ a-zA-Z])*", ErrorMessage = "{0} must not contain any numbers or any special characters.")]
         [StringLength(15, ErrorMessage = "Maximum length for {0} is 15 characters only.")]

@@ -18,8 +18,8 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FRIEND_ID" Type="Int32" />
-    <Property Name="USER_ID" Type="Int32" />
+    <Property Name="FRIEND_ID" Type="Int32" Nullable="false" />
+    <Property Name="USER_ID" Type="Int32" Nullable="false" />
     <Property Name="REQUEST" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
     <Property Name="BLOCKED" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
     <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" Precision="3" />
@@ -60,8 +60,8 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="CONTENT" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="PROFILE_OWNER_ID" Type="Int32" />
-    <Property Name="POSTER_ID" Type="Int32" />
+    <Property Name="PROFILE_OWNER_ID" Type="Int32" Nullable="false" />
+    <Property Name="POSTER_ID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="COMMENTs" Relationship="Self.FK__COMMENT__POST_ID__182C9B23" FromRole="POST" ToRole="COMMENT" />
     <NavigationProperty Name="LIKEs" Relationship="Self.FK__LIKE__POST_ID__29572725" FromRole="POST" ToRole="LIKE" />
     <NavigationProperty Name="NOTIFICATIONs" Relationship="Self.FK__NOTIFICAT__POST___31EC6D26" FromRole="POST" ToRole="NOTIFICATION" />
@@ -141,7 +141,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__FRIEND__FRIEND_I__239E4DCF">
-    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
     <End Role="FRIEND" Type="Self.FRIEND" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USER">
@@ -153,7 +153,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__FRIEND__USER_ID__24927208">
-    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
     <End Role="FRIEND" Type="Self.FRIEND" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USER">
@@ -225,7 +225,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__POST__POSTER_ID__1367E606">
-    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
     <End Role="POST" Type="Self.POST" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USER">
@@ -237,7 +237,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__POST__PROFILE_OW__1273C1CD">
-    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
     <End Role="POST" Type="Self.POST" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USER">
@@ -260,7 +260,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="PASTEBOOKEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="PASTEBOOKEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="COMMENTs" EntityType="Self.COMMENT" />
     <EntitySet Name="FRIENDs" EntityType="Self.FRIEND" />
     <EntitySet Name="LIKEs" EntityType="Self.LIKE" />

@@ -52,11 +52,26 @@ namespace PasteBookFinalProject.Controllers
             return View("HomeView");
 
         }
-        
+
         [HttpGet]
         public ActionResult AccountView()
         {
-            return View();
+            return View((UserModel)Session["modelSession"]);
+        }
+
+        
+        public JsonResult AddPost(string postContent)
+        {
+            UserModel model = manager.GetUserDetails(Session["User"].ToString());
+            PostModel postModel = new PostModel();
+
+            postModel.PostPosterID = model.ID;
+            postModel.PostProfileOwnerID = model.ID;
+            postModel.PostContent = postContent;
+            postModel.PostCreatedDate = DateTime.Now;
+            
+            int result =  manager.AddPost(postModel);
+            return Json(new { result = result } ); 
         }
 
         [HttpPost]
@@ -67,9 +82,15 @@ namespace PasteBookFinalProject.Controllers
                 if (manager.CheckUserCredentials(model))
                 {
                     Session["User"] = model.LoginModel.LoginEmail;
+                    Session["ID"] = manager.GetUserID(Session["User"].ToString());
+
                     UserModel userModel = manager.GetUserDetails(Session["User"].ToString());
-                    Session["modelSession"] = userModel;
-                    return View();
+                    Session["Username"] = userModel.Username;
+                    Session["Firstname"] = userModel.FirstName;
+                    Session["Lastname"] = userModel.LastName;
+
+                    return RedirectToAction("AccountView", "PasteBook");
+                   
                 }
                 else
                 {
@@ -84,8 +105,16 @@ namespace PasteBookFinalProject.Controllers
            
         }
 
-        [HttpPost]
-        public ActionResult GeneratePost(PostLoginViewModel model)
+
+        public PartialViewResult PostList()
+        {
+            int ID = Convert.ToInt32(Session["ID"]);
+            List<PostModel> post = new List<PostModel>();
+            post = manager.GetPosts(ID);
+            return PartialView("PostList", post);
+        }
+
+        public ActionResult TimelineView()
         {
             return View();
         }
@@ -93,7 +122,7 @@ namespace PasteBookFinalProject.Controllers
         [HttpGet]
         public ActionResult ProfileView()
         {
-            UserModel userModel = (UserModel)Session["modelSession"];
+            UserModel userModel = manager.GetUserDetails(Session["User"].ToString());
             return View(userModel);
         }
 

@@ -156,10 +156,10 @@
     <Compile Include="Mappers\MVCMapper.cs" />
     <Compile Include="Models\CountryModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\PostLoginViewModel.cs" />
     <Compile Include="Models\PostModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\VMPostUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +212,7 @@
     <Content Include="Views\PasteBook\HomeView.cshtml" />
     <Content Include="Views\PasteBook\AccountView.cshtml" />
     <Content Include="Views\PasteBook\ProfileView.cshtml" />
+    <Content Include="Views\PasteBook\PostList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

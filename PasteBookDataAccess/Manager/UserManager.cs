@@ -17,7 +17,7 @@ namespace PasteBookDataAccess.Manager
             int result = 0;
             try
             {
-                using (var context = new PASTEBOOKEntities())
+                using (var context = new PASTEBOOKEntities1())
                 {
                     user.DATE_CREATED = DateTime.Now;
                     user.BIRTHDAY = user.BIRTHDAY.Date;
@@ -38,7 +38,7 @@ namespace PasteBookDataAccess.Manager
         {
             try
             {
-                using (var context = new PASTEBOOKEntities())
+                using (var context = new PASTEBOOKEntities1())
                 {
                     return context.USERs.Any(x => x.USER_NAME == username);
                 }
@@ -54,7 +54,7 @@ namespace PasteBookDataAccess.Manager
         {
             try
             {
-                using (var context = new PASTEBOOKEntities())
+                using (var context = new PASTEBOOKEntities1())
                 {
                     return context.USERs.Any(x => x.EMAIL_ADDRESS == emailAddress);
                 }

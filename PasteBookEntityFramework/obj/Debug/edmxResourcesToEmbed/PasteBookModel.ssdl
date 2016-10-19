@@ -15,8 +15,8 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="FRIEND_ID" Type="int" />
-    <Property Name="USER_ID" Type="int" />
+    <Property Name="FRIEND_ID" Type="int" Nullable="false" />
+    <Property Name="USER_ID" Type="int" Nullable="false" />
     <Property Name="REQUEST" Type="char" MaxLength="1" Nullable="false" />
     <Property Name="BLOCKED" Type="char" MaxLength="1" Nullable="false" />
     <Property Name="CREATED_DATE" Type="datetime" Nullable="false" />
@@ -49,8 +49,8 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CREATED_DATE" Type="datetime" Nullable="false" />
     <Property Name="CONTENT" Type="varchar" MaxLength="1000" Nullable="false" />
-    <Property Name="PROFILE_OWNER_ID" Type="int" />
-    <Property Name="POSTER_ID" Type="int" />
+    <Property Name="PROFILE_OWNER_ID" Type="int" Nullable="false" />
+    <Property Name="POSTER_ID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="REF_COUNTRY">
     <Key>
@@ -103,7 +103,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__FRIEND__FRIEND_I__239E4DCF">
-    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
     <End Role="FRIEND" Type="Self.FRIEND" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USER">
@@ -115,7 +115,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__FRIEND__USER_ID__24927208">
-    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
     <End Role="FRIEND" Type="Self.FRIEND" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USER">
@@ -199,7 +199,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__POST__POSTER_ID__1367E606">
-    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
     <End Role="POST" Type="Self.POST" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USER">
@@ -211,7 +211,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__POST__PROFILE_OW__1273C1CD">
-    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
     <End Role="POST" Type="Self.POST" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USER">

@@ -19,7 +19,7 @@ namespace PasteBookDataAccess.Manager
              
             try
             {
-                using (var context = new PASTEBOOKEntities())
+                using (var context = new PASTEBOOKEntities1())
                 {
                     foreach (var item in context.REF_COUNTRY.ToList())
                     {

@@ -15,8 +15,8 @@ namespace PasteBookEntityFramework
     public partial class FRIEND
     {
         public int ID { get; set; }
-        public Nullable<int> FRIEND_ID { get; set; }
-        public Nullable<int> USER_ID { get; set; }
+        public int FRIEND_ID { get; set; }
+        public int USER_ID { get; set; }
         public string REQUEST { get; set; }
         public string BLOCKED { get; set; }
         public System.DateTime CREATED_DATE { get; set; }

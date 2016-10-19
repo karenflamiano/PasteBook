@@ -7,6 +7,8 @@
     line-height: 28px;
     text-align: center;
     background-image: url("../Content/images/1.jpg");
+     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /***** Set padding to keep content from hitting the edges *****/

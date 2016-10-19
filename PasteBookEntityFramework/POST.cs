@@ -25,8 +25,8 @@ namespace PasteBookEntityFramework
         public int ID { get; set; }
         public System.DateTime CREATED_DATE { get; set; }
         public string CONTENT { get; set; }
-        public Nullable<int> PROFILE_OWNER_ID { get; set; }
-        public Nullable<int> POSTER_ID { get; set; }
+        public int PROFILE_OWNER_ID { get; set; }
+        public int POSTER_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COMMENT> COMMENTs { get; set; }

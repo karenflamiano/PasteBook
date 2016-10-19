@@ -13,10 +13,10 @@ namespace PasteBookEntityFramework
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PASTEBOOKEntities : DbContext
+    public partial class PASTEBOOKEntities1 : DbContext
     {
-        public PASTEBOOKEntities()
-            : base("name=PASTEBOOKEntities")
+        public PASTEBOOKEntities1()
+            : base("name=PASTEBOOKEntities1")
         {
         }
     
