@@ -3,53 +3,62 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using PasteBookDataAccess;
+//using PasteBookDataAccess;
 using PasteBookFinalProject;
+using PasteBookBusinessLogic;
+using PasteBookEntityFramework;
 
 namespace PasteBookFinalProject.Managers
 {
     public class MVCManager
     {
-        DataAccess dataAccess = new DataAccess();
+        //GetCountryList getCountry = new GetCountryList();
+        //PasteBookBusinessLogic dataAccess = new PasteBookBusinessLogic();
 
-        public int AddUser(UserModel user)
+        UserManager userManager = new UserManager();
+        GetListOfCountry getCountry = new GetListOfCountry();
+        PostManager postManager = new PostManager();
+        PasswordMatch passwordMatch = new PasswordMatch();
+        
+        public int AddUser(USER user)
         {
-            dataAccess.AddUser(MVCMapper.MapMVCUserModelToDAUserEntities(user));
+            userManager.AddUserAccount(user);
             return 0;
         }
 
-        public UserModel GetUserDetails(string emailAddress)
+        public USER GetUserDetails(string emailAddress)
         {
-            return MVCMapper.MapDAUserEntitiesToMVCUserModel(dataAccess.GetUserDetails(emailAddress)); 
+            return userManager.GetAccountDetailsUsingEmail(emailAddress);
         }
 
         public int GetUserID(string emailAddress)
         {
-            return dataAccess.GetIDUsingEmailAddress(emailAddress);
+            //return dataAccess.GetIDUsingEmailAddress(emailAddress);
+            return userManager.GetAccountIDUsingEmail(emailAddress);
         }
 
 
-        public List<CountryModel> GetCountry()
+        public List<REF_COUNTRY> GetCountry()
         {
-            List<CountryModel> listOfCountries = new List<CountryModel>();
-            foreach (var item in dataAccess.GetCountry())
+            List<REF_COUNTRY> listOfCountries = new List<REF_COUNTRY>();
+            foreach (var item in getCountry.GetCountry())
             {
-                listOfCountries.Add(MVCMapper.MapCountryDAEntitesToMVCCountryModel(item));
+                listOfCountries.Add(item);
             }
             return listOfCountries;
         }
 
         public bool CheckUsername(string username)
         {
-            bool checkUsername;
-            checkUsername = dataAccess.CheckIfUsernameExists(username);
+            bool checkUsername = false;
+            //checkUsername = dataAccess.CheckIfUsernameExists(username);               //ni-comment out ni erbs
             return checkUsername;
         }
 
         public bool CheckEmailAddress(string emailAddress)
         {
             bool checkUsername;
-            checkUsername = dataAccess.CheckIfEmailAddressExists(emailAddress);
+            checkUsername = userManager.CheckIfEmailAddressExists(emailAddress);
             return checkUsername;
         }
 
@@ -57,9 +66,9 @@ namespace PasteBookFinalProject.Managers
         {
             if (userLogin != null)
             {
-                if (dataAccess.CheckIfEmailAddressExists(userLogin.LoginModel.LoginEmail))
+                if (userManager.CheckIfEmailAddressExists(userLogin.LoginModel.LoginEmail))
                 {
-                    bool result = dataAccess.PasswordInputAndPasswordFromDBMatch(userLogin.LoginModel.LoginEmail, userLogin.LoginModel.LoginPassword);
+                    bool result = passwordMatch.PasswordInputAndPasswordFromDBMatch(userLogin.LoginModel.LoginEmail, userLogin.LoginModel.LoginPassword);
                     return result;
                 }
                 else
@@ -69,24 +78,24 @@ namespace PasteBookFinalProject.Managers
             }
             return false;
         }
-        
 
-        public List<PostModel> GetPosts(int ID)
+
+        public List<POST> GetPosts(int ID)
         {
-            List<PostModel> listOfPosts = new List<PostModel>();
-            foreach (var item in dataAccess.GetPosts(ID))
+            List<POST> listOfPosts = new List<POST>();
+            foreach (var item in postManager.NewsFeedPosts(ID))
             {
-                listOfPosts.Add(MVCMapper.MapPostDAEntitiesToMVCPostModel(item));
+                listOfPosts.Add(item);
             }
             return listOfPosts;
         }
 
-        public int AddPost(PostModel post)
+        public int AddPost(POST post)
         {
-            dataAccess.AddPost(MVCMapper.MapMVCPostModelToPostDAEntites(post));
+            postManager.AddPost(post);
             return 0;
         }
-        
+
 
     }
 }

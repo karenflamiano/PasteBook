@@ -153,12 +153,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Managers\MVCManager.cs" />
-    <Compile Include="Mappers\MVCMapper.cs" />
     <Compile Include="Models\CountryModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PostModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
-    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VMPostUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -209,8 +207,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\PasteBook\HomeView.cshtml" />
-    <Content Include="Views\PasteBook\AccountView.cshtml" />
+    <Content Include="Views\PasteBook\Index.cshtml" />
+    <Content Include="Views\PasteBook\Home.cshtml" />
     <Content Include="Views\PasteBook\ProfileView.cshtml" />
     <Content Include="Views\PasteBook\PostList.cshtml" />
   </ItemGroup>
@@ -229,9 +227,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PasteBookDataAccess\PasteBookDataAccess.csproj">
-      <Project>{58be231e-7675-4581-b746-5f206436a606}</Project>
-      <Name>PasteBookDataAccess</Name>
+    <ProjectReference Include="..\PasteBookBusinessLogic\PasteBookBusinessLogic.csproj">
+      <Project>{be836654-dc46-4e85-b10f-0c34b12e6d5b}</Project>
+      <Name>PasteBookBusinessLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\PasteBookEntityFramework\PasteBookEntityFramework.csproj">
       <Project>{53a1bd1b-4768-4376-a3c3-7591fbe2c4fe}</Project>

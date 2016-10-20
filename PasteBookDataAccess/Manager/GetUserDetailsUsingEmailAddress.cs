@@ -1,5 +1,4 @@
-﻿using PasteBookDataAccess.Entities;
-using PasteBookDataAccess.Mappers;
+﻿
 using PasteBookEntityFramework;
 using System;
 using System.Collections.Generic;
@@ -13,14 +12,14 @@ namespace PasteBookDataAccess.Manager
     {
         List<Exception> ListOfException = new List<Exception>();
 
-        public User GetAccountEmailAddress(string emailAddress)
+        public USER GetAccountEmailAddress(string emailAddress)
         {
-            User result = new User();
+            USER result = new USER();
             try
             {
                 using (var context = new PASTEBOOKEntities1())
                 {
-                    result = Mapper.MapDBUserTableToUserEntity(context.USERs.Where(x => x.EMAIL_ADDRESS == emailAddress).SingleOrDefault());
+                    result = context.USERs.Where(x => x.EMAIL_ADDRESS == emailAddress).SingleOrDefault();
                 }
                
             }

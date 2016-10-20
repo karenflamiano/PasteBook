@@ -1,5 +1,4 @@
-﻿using PasteBookDataAccess.Entities;
-using PasteBookDataAccess.Mappers;
+﻿
 using PasteBookEntityFramework;
 using System;
 using System.Collections.Generic;
@@ -13,14 +12,14 @@ namespace PasteBookDataAccess.Manager
     {
         List<Exception> ListOfException = new List<Exception>();
 
-        public int AddPostToDB(Post post)
+        public int AddPostToDB(POST post)
         {
             int result = 0;
             try
             {
                 using (var context = new PASTEBOOKEntities1())
                 {
-                    context.POSTs.Add(Mapper.MapPostEntityToDBPostTable(post));
+                    context.POSTs.Add(post);
                     result = context.SaveChanges();
                 }
             }

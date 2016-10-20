@@ -1,5 +1,4 @@
-﻿using PasteBookDataAccess.Entities;
-using PasteBookDataAccess.Mappers;
+﻿
 using PasteBookEntityFramework;
 using System;
 using System.Collections.Generic;
@@ -13,9 +12,9 @@ namespace PasteBookDataAccess.Manager
     {
         List<Exception> ListOfException = new List<Exception>();
 
-        public List<Country> ListOfCountry()
+        public List<REF_COUNTRY> ListOfCountry()
         {
-            List<Country> listOfCountries = new List<Country>();
+            List<REF_COUNTRY> listOfCountries = new List<REF_COUNTRY>();
              
             try
             {
@@ -23,7 +22,7 @@ namespace PasteBookDataAccess.Manager
                 {
                     foreach (var item in context.REF_COUNTRY.ToList())
                     {
-                        listOfCountries.Add(Mapper.MapDBCountryTableToCountryEntity(item));
+                        listOfCountries.Add(item);
                     }
                 }
             }
@@ -31,9 +30,7 @@ namespace PasteBookDataAccess.Manager
             {
                 ListOfException.Add(ex);
             }
-
             return listOfCountries;
-
         }
     }
 }

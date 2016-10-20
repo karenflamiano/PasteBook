@@ -110,3 +110,5 @@ C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\EntityFramewo
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\obj\Debug\PasteBookFinalProject.csprojResolveAssemblyReference.cache
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\obj\Debug\PasteBookFinalProject.dll
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\obj\Debug\PasteBookFinalProject.pdb
+C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookBusinessLogic.dll
+C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookBusinessLogic.pdb

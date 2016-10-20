@@ -1,5 +1,4 @@
-﻿using PasteBookDataAccess.Entities;
-using PasteBookDataAccess.Mappers;
+﻿
 using PasteBookEntityFramework;
 using System;
 using System.Collections.Generic;
@@ -12,51 +11,79 @@ namespace PasteBookDataAccess.Manager
     public class GetAllPostsManager
     {
         List<Exception> ListOfException = new List<Exception>();
-        public List<Post> ListOfPosts(int userID)
+        
+        public List<POST> ListOfPosts(int userID)
         {
-            List<Post> listOfPosts = new List<Post>();
-            List<User> listOfFriends = new List<User>();
+            List<POST> listOfPosts = new List<POST>();
+            List<USER> listOfFriends = new List<USER>();
+            List<POST> finalListOfPost = new List<POST>();
             try
             {
                 using (var context = new PASTEBOOKEntities1())
                 {
+                    var userPosts =  context.POSTs.Where(x => x.POSTER_ID == userID || x.PROFILE_OWNER_ID == userID);
+
+                    foreach (var userPost in userPosts)
+                    {
+                        listOfPosts.Add(new POST()
+                        {
+                            CONTENT = userPost.CONTENT,
+                            CREATED_DATE = userPost.CREATED_DATE,
+                            ID = userPost.ID,
+                            POSTER_ID = userPost.POSTER_ID,
+                            PROFILE_OWNER_ID = userPost.PROFILE_OWNER_ID
+                        });
+
+                    }
                     listOfFriends = GetUserFriend(userID);
+
                     foreach (var item in listOfFriends)
                     {
-                        listOfPosts = Mapper.MapRetrievePostFromDB(context.POSTs.Where(x => x.POSTER_ID == userID ||
-                        x.PROFILE_OWNER_ID == userID || (x.POSTER_ID == item.ID &&
-                        x.PROFILE_OWNER_ID == item.ID)).OrderByDescending(x => x.CREATED_DATE).Take(100).ToList());
+                       var friendsPosts = context.POSTs.Where(x => x.POSTER_ID == item.ID || x.PROFILE_OWNER_ID == item.ID).ToList();
+                        foreach (var friendPost in friendsPosts)
+                        {
+                            listOfPosts.Add(new POST()
+                            {
+                                CONTENT = friendPost.CONTENT,
+                                CREATED_DATE = friendPost.CREATED_DATE,
+                                ID = friendPost.ID,
+                                POSTER_ID = friendPost.POSTER_ID,
+                                PROFILE_OWNER_ID = friendPost.PROFILE_OWNER_ID
+                            });
+                        }
                     }
+
+                    finalListOfPost = listOfPosts.OrderByDescending(x => x.CREATED_DATE).Take(100).ToList();
                 }
             }
             catch (Exception ex)
             {
                 ListOfException.Add(ex);
             }
-            return listOfPosts;
+            return finalListOfPost;
         }
 
-       private List<User> GetUserFriend(int UserID)
+       private List<USER> GetUserFriend(int UserID)
         {
-            List<User> listOfFriend = new List<User>();
-            List<Friend> IsFriend = new List<Friend>();
+            List<USER> listOfFriend = new List<USER>();
+            List<FRIEND> IsFriend = new List<FRIEND>();
             int friendID = 0;
             try
             {
                 using (var context = new PASTEBOOKEntities1())
                 {
-                    var result = context.FRIENDs.Where(x => x.ID == UserID || x.FRIEND_ID == UserID).ToList();
+                    var result = context.FRIENDs.Where(x => x.USER_ID == UserID || x.FRIEND_ID == UserID).ToList();
 
                     foreach (var item in result)
                     {
-                        IsFriend.Add(new Friend()
+                        IsFriend.Add(new FRIEND()
                         {
                             ID = item.ID,
-                            BLOCKED = Convert.ToChar(item.BLOCKED),
+                            BLOCKED =item.BLOCKED,
                             CREATED_DATE = item.CREATED_DATE,
                             FRIEND_ID = item.FRIEND_ID,
                             USER_ID = item.USER_ID,
-                            REQUEST = Convert.ToChar(item.REQUEST)
+                            REQUEST = item.REQUEST
 
                         });
                     }
@@ -71,7 +98,20 @@ namespace PasteBookDataAccess.Manager
                         {
                             friendID = item.USER_ID;
                         }
-                        listOfFriend = Mapper.MapUserListFromDB(context.USERs.Where(x => x.ID == friendID).ToList());
+                        var list = context.USERs.Where(x => x.ID == friendID).ToList();
+
+                        foreach (var friend in list)
+                        {
+                            listOfFriend.Add(new USER()
+                            {
+                                ID = friend.ID,
+                                ABOUT_ME = friend.ABOUT_ME,
+                                BIRTHDAY = friend.BIRTHDAY,
+                                FIRST_NAME = friend.FIRST_NAME,
+                                LAST_NAME = friend.LAST_NAME,
+                                USER_NAME = friend.USER_NAME
+                            });
+                        }
                     }
                 }
 

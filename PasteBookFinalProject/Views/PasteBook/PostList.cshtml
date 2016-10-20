@@ -1,16 +1,20 @@
-﻿@model IEnumerable<PasteBookFinalProject.Models.PostModel>
+﻿@model PasteBookFinalProject.Models.VMPostUser
 
-@foreach (var item in Model)
+@foreach (var item in Model.ListOfPost)
 {
     <div class="panel panel-default">
         <div class="panel-heading text-left">
-            @Session["Username"]
-            @Html.DisplayFor(modelItem => item.PostCreatedDate)
+            @Model.UserModelDetails.FIRST_NAME @Model.UserModelDetails.LAST_NAME
+            @Html.DisplayFor(modelItem => item.CREATED_DATE)
         </div>
         <div class="panel-body text-left">
-            @Html.DisplayFor(modelItem => item.PostContent)
+                @Html.DisplayFor(modelItem => item.CONTENT)
+            
         </div>
         <div class="panel-footer text-left">
+            <div>
+                @Html.TextBox("commentContent", null, new { @class = "form-control", placeholder="Comment here..", id="postContent"})
+            </div>
             <button type="submit" class="btn btn-primary">LIKE</button>
             <button type="submit" class="btn btn-primary">COMMENT</button>
         </div>

@@ -49,22 +49,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess.cs" />
-    <Compile Include="Entities\Comment.cs" />
-    <Compile Include="Entities\Country.cs" />
-    <Compile Include="Entities\Friend.cs" />
-    <Compile Include="Entities\Like.cs" />
-    <Compile Include="Entities\Notification.cs" />
-    <Compile Include="Entities\Post.cs" />
-    <Compile Include="Entities\User.cs" />
     <Compile Include="Manager\CountryManager.cs" />
     <Compile Include="Manager\GeneratePostManager.cs" />
     <Compile Include="Manager\GetAllPostsManager.cs" />
     <Compile Include="Manager\GetUserDetailsUsingEmailAddress.cs" />
     <Compile Include="Manager\GetUserIDUsingEmailAddress.cs" />
     <Compile Include="Manager\PasswordManager.cs" />
-    <Compile Include="Manager\UserManager.cs" />
-    <Compile Include="Mappers\Mapper.cs" />
+    <Compile Include="Manager\ProfilePostsManager.cs" />
+    <Compile Include="Manager\GetUser.cs" />
+    <Compile Include="PasteBookDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
