@@ -16,13 +16,8 @@ namespace PasteBookDataAccess.Manager
             byte[] resultBytes = sha.ComputeHash(dataBytes);
             return Utility.GetString(resultBytes);
         }
-
-        public bool IsPasswordMatch(string password, string salt, string hash)
-        {
-            string finalString = password + salt;
-            return hash == GetPasswordHash(finalString);
-        }
     }
+  
 
     public static class SaltGenerator
     {
@@ -55,6 +50,9 @@ namespace PasteBookDataAccess.Manager
         }
     }
 
-   
+  
+
+
+
 
 }

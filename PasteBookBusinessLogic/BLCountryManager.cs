@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PasteBookBusinessLogic
 {
-    public class GetListOfCountry
+    public class BLCountryManager
     {
         public List<REF_COUNTRY> GetCountry()
         {

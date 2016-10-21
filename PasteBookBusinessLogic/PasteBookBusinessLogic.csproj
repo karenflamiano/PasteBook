@@ -49,10 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PostManager.cs" />
-    <Compile Include="PasswordMatch.cs" />
-    <Compile Include="UserManager.cs" />
-    <Compile Include="GetListOfCountry.cs" />
+    <Compile Include="BLCommentManager.cs" />
+    <Compile Include="BLPostManager.cs" />
+    <Compile Include="BLUserManager.cs" />
+    <Compile Include="BLCountryManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

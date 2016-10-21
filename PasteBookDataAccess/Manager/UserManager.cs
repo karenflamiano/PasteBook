@@ -1,5 +1,4 @@
-﻿
-using PasteBookEntityFramework;
+﻿using PasteBookEntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PasteBookDataAccess.Manager
 {
-    public class GetUser
+    public class UserManager
     {
         List<Exception> ListOfException = new List<Exception>();
         public int AddUsertoDB(USER user)
@@ -32,8 +31,47 @@ namespace PasteBookDataAccess.Manager
             return result;
 
         }
-        
-        public bool CheckIfUsernameExists (string username)
+
+       
+
+        public USER GetAccountEmailAddress(string emailAddress)
+        {
+            USER result = new USER();
+            try
+            {
+                using (var context = new PASTEBOOKEntities1())
+                {
+                    result = context.USERs.Where(x => x.EMAIL_ADDRESS == emailAddress).SingleOrDefault();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ListOfException.Add(ex);
+            }
+            return result;
+        }
+
+
+        public int GetIDUSingEmailAddress(string emailAddress)
+        {
+            int result = 0;
+            try
+            {
+                using (var context = new PASTEBOOKEntities1())
+                {
+                    result = (context.USERs.Where(x => x.EMAIL_ADDRESS == emailAddress).Select(x => x.ID).Single());
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ListOfException.Add(ex);
+            }
+            return result;
+        }
+
+        public bool CheckIfUsernameExists(string username)
         {
             try
             {
@@ -64,6 +102,7 @@ namespace PasteBookDataAccess.Manager
                 return false;
             }
         }
+
+
     }
-    
 }

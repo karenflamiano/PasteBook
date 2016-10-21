@@ -1,5 +1,4 @@
-﻿
-using PasteBookEntityFramework;
+﻿using PasteBookEntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +7,46 @@ using System.Threading.Tasks;
 
 namespace PasteBookDataAccess.Manager
 {
-    public class GetAllPostsManager
+    public class PostManager
     {
         List<Exception> ListOfException = new List<Exception>();
+
+        public int AddPostToDB(POST post)
+        {
+            int result = 0;
+            try
+            {
+                using (var context = new PASTEBOOKEntities1())
+                {
+                    context.POSTs.Add(post);
+                    result = context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                ListOfException.Add(ex);
+            }
+            return result;
+        }
+
+        public List<POST> ProfileListOfPosts(int userID)
+        {
+            List<POST> listOfPosts = new List<POST>();
+            try
+            {
+                using (var context = new PASTEBOOKEntities1())
+                {
+                    var result = context.POSTs.Where(x => x.POSTER_ID == userID || x.PROFILE_OWNER_ID == userID).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                ListOfException.Add(ex);
+            }
+            return listOfPosts;
+        }
         
-        public List<POST> ListOfPosts(int userID)
+        public List<POST> NewsFeedListOfPosts(int userID)
         {
             List<POST> listOfPosts = new List<POST>();
             List<USER> listOfFriends = new List<USER>();
@@ -21,7 +55,7 @@ namespace PasteBookDataAccess.Manager
             {
                 using (var context = new PASTEBOOKEntities1())
                 {
-                    var userPosts =  context.POSTs.Where(x => x.POSTER_ID == userID || x.PROFILE_OWNER_ID == userID);
+                    var userPosts = context.POSTs.Where(x => x.POSTER_ID == userID || x.PROFILE_OWNER_ID == userID);
 
                     foreach (var userPost in userPosts)
                     {
@@ -39,7 +73,7 @@ namespace PasteBookDataAccess.Manager
 
                     foreach (var item in listOfFriends)
                     {
-                       var friendsPosts = context.POSTs.Where(x => x.POSTER_ID == item.ID || x.PROFILE_OWNER_ID == item.ID).ToList();
+                        var friendsPosts = context.POSTs.Where(x => x.POSTER_ID == item.ID || x.PROFILE_OWNER_ID == item.ID).ToList();
                         foreach (var friendPost in friendsPosts)
                         {
                             listOfPosts.Add(new POST()
@@ -63,7 +97,7 @@ namespace PasteBookDataAccess.Manager
             return finalListOfPost;
         }
 
-       private List<USER> GetUserFriend(int UserID)
+        private List<USER> GetUserFriend(int UserID)
         {
             List<USER> listOfFriend = new List<USER>();
             List<FRIEND> IsFriend = new List<FRIEND>();
@@ -79,22 +113,21 @@ namespace PasteBookDataAccess.Manager
                         IsFriend.Add(new FRIEND()
                         {
                             ID = item.ID,
-                            BLOCKED =item.BLOCKED,
+                            BLOCKED = item.BLOCKED,
                             CREATED_DATE = item.CREATED_DATE,
                             FRIEND_ID = item.FRIEND_ID,
                             USER_ID = item.USER_ID,
-                            REQUEST = item.REQUEST
-
+                            REQUEST = item.REQUEST,
                         });
                     }
 
                     foreach (var item in IsFriend)
                     {
-                        if(item.USER_ID == UserID)
+                        if (item.USER_ID == UserID)
                         {
                             friendID = item.FRIEND_ID;
                         }
-                        else if(item.FRIEND_ID == UserID)
+                        else if (item.FRIEND_ID == UserID)
                         {
                             friendID = item.USER_ID;
                         }
@@ -122,5 +155,7 @@ namespace PasteBookDataAccess.Manager
             }
             return listOfFriend;
         }
+
+
     }
 }

@@ -9,9 +9,10 @@ namespace PasteBookFinalProject.Models
 {
     public class VMPostUser
     {
-        public USER UserModelDetails { get; set; }
-        [Required(ErrorMessage ="Can't Post Nothin' Nigga!")]
-        public POST CreatePost { get; set; }
-        public List<POST> ListOfPost { get; set; }
+        public POST Post { get; set; }
+        string fullname { get; set; }
+        public byte[] profile_picture { get; set; }
+        public List<COMMENT> CommentList { get; set; }
+        public List<LIKE> LikeList { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using PasteBookFinalProject.Managers;
+﻿//using PasteBookFinalProject.Managers;
 using PasteBookFinalProject.Models;
 using PasteBookBusinessLogic;
 using System;
@@ -12,73 +12,72 @@ namespace PasteBookFinalProject.Controllers
 {
     public class PasteBookController : Controller
     {
-        MVCManager manager = new MVCManager();
-        //PasteBookBusinessLogic manager = new PasteBookBusinessLogic();
-       
+
+        BLCountryManager countryManager = new BLCountryManager();
+        BLUserManager userManager = new BLUserManager();
+        BLPostManager postManager = new BLPostManager();
+        BLCommentManager commentManager = new BLCommentManager();
+
         static LoginViewModel mainModel = new LoginViewModel();
         
         [HttpGet]
         public ActionResult Index()
         {
             LoginViewModel model = new LoginViewModel();
-            model.CountryList = manager.GetCountry();
+            List<REF_COUNTRY> listOfCountries = countryManager.GetCountry();
+
+            model.CountryList = listOfCountries;
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Index([Bind(Include = "UserLoginModel")]LoginViewModel model)
+        public ActionResult Index(LoginViewModel model)
         {
-            if (manager.CheckEmailAddress(model.user.EMAIL_ADDRESS))
+            //Adding image 
+            //stackoverflow.com/questions/17952514/mvc-how-to-display-a-byte-array-image-from-model
+
+            //AddImage
+            if (userManager.CheckIfEmailAddressExists(model.user))
             {
-                ModelState.AddModelError("EmailAddress", "Email Address already exists.");
+                ModelState.AddModelError("EMAIL_ADDRESS", "Email Address already exists.");
             }
 
-            if (manager.CheckUsername(model.user.USER_NAME))
+            if (userManager.CheckIfUsernameExists(model.user.USER_NAME))
             {
-                ModelState.AddModelError("Username", "Username already exists.");
+                ModelState.AddModelError("USER_NAME", "Username already exists.");
             }
 
             if (ModelState.IsValid)
             {
-                manager.AddUser(model.user);
+                userManager.AddUserAccount(model.user);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Home()
         {
-            VMPostUser model = new VMPostUser();
-            model.UserModelDetails = manager.GetUserDetails(Session["User"].ToString());
+            USER model = new USER();
+            model = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
             return View(model);
-        }
-
-        
-        public JsonResult AddPost(string postContent)
-        {
-            USER model = manager.GetUserDetails(Session["User"].ToString());
-            POST postModel = new POST();
-
-            postModel.POSTER_ID = model.ID;
-            postModel.PROFILE_OWNER_ID = model.ID;
-            postModel.CONTENT = postContent;
-            postModel.CREATED_DATE = DateTime.Now;
-            
-            int result =  manager.AddPost(postModel);
-            return Json(new { result = result } ); 
         }
 
         [HttpPost]
         public ActionResult Home([Bind(Include = "LoginModel")] LoginViewModel model)
         {
+            USER entityUser = new USER();
+            entityUser.EMAIL_ADDRESS = model.LoginModel.LoginEmail;
+            entityUser.PASSWORD = model.LoginModel.LoginPassword;
+
             if (ModelState.IsValid)
             {
-                if (manager.CheckUserCredentials(model))
+
+                if (userManager.CheckIfEmailAddressExists(entityUser))
                 {
                     Session["User"] = model.LoginModel.LoginEmail;
-                    Session["ID"] = manager.GetUserID(Session["User"].ToString());
+                    Session["ID"] = userManager.GetAccountIDUsingEmail(Session["User"].ToString());
 
-                    USER userModel = manager.GetUserDetails(Session["User"].ToString());
+                    USER userModel = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
                     return RedirectToAction("Home", "PasteBook");
                 }
                 else
@@ -89,18 +88,64 @@ namespace PasteBookFinalProject.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
         }
 
-        public PartialViewResult PostList()
+        public JsonResult AddPost(string postContent)
         {
-            VMPostUser postView = new VMPostUser();
-            postView.UserModelDetails = manager.GetUserDetails(Session["User"].ToString());
-            int ID = Convert.ToInt32(Session["ID"]);
-            postView.ListOfPost = manager.GetPosts(ID);
-            return PartialView("PostList", postView);
+            USER model = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
+            POST postModel = new POST();
+
+            postModel.POSTER_ID = model.ID;
+            postModel.PROFILE_OWNER_ID = model.ID;
+            postModel.CONTENT = postContent;
+            postModel.CREATED_DATE = DateTime.Now;
+            
+            int result =  postManager.AddPost(postModel);
+            return Json(new { result = result } ); 
         }
+
+        public JsonResult AddComment(string commentContent, int postID)
+        {
+            USER model = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
+            COMMENT commentModel = new COMMENT();
+            commentModel.CONTENT = commentContent;
+            commentModel.POST_ID = postID;
+            commentModel.POSTER_ID = model.ID;
+            commentModel.DATE_CREATED = DateTime.Now;
+
+            int result = commentManager.AddComment(commentModel);
+            return Json(new { result = result });
+        }
+
+
+
+        public PartialViewResult PostList(int ID)
+        {
+            //VMPostWithLikeAndComment postView = new VMPostWithLikeAndComment();
+            //USER user = new USER();
+            VMPostUser vm = new VMPostUser();
+            //vm.CommentList = 
+            //user = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
+            //postView.postList
+            //int ID = Convert.ToInt32(Session["ID"]);
+            List<POST> postList = postManager.NewsFeedPosts(ID);
+            
+            List<COMMENT> commentList = new List<COMMENT>();
+            List<LIKE> likeList = new List<LIKE>();
+
+
+            foreach (var item in postList)
+            {
+               
+                commentList = commentManager.ListOfComments(item.ID);      
+            }
+
+            return PartialView("PostList", postList);
+        }
+
+      
 
         public ActionResult Timeline()
         {
@@ -110,7 +155,7 @@ namespace PasteBookFinalProject.Controllers
         [HttpGet]
         public ActionResult ProfileView()
         {
-            USER userModel = manager.GetUserDetails(Session["User"].ToString());
+            USER userModel = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
             return View(userModel);
         }
 

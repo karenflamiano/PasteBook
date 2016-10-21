@@ -78,7 +78,7 @@ C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\Microsoft.App
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\Newtonsoft.Json.dll
-C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookDataAccess.dll
+C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookBusinessLogic.dll
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookEntityFramework.dll
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\System.Web.Helpers.dll
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\System.Web.Mvc.dll
@@ -88,8 +88,9 @@ C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\System.Web.We
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\System.Web.WebPages.dll
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\System.Web.WebPages.Razor.dll
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\WebGrease.dll
+C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookDataAccess.dll
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\EntityFramework.dll
-C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookDataAccess.pdb
+C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookBusinessLogic.pdb
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookEntityFramework.pdb
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\Microsoft.AI.DependencyCollector.xml
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\Microsoft.AI.ServerTelemetryChannel.xml
@@ -106,9 +107,8 @@ C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\System.Web.We
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\System.Web.WebPages.Razor.xml
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\Antlr3.Runtime.pdb
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\Newtonsoft.Json.xml
+C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookDataAccess.pdb
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\EntityFramework.xml
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\obj\Debug\PasteBookFinalProject.csprojResolveAssemblyReference.cache
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\obj\Debug\PasteBookFinalProject.dll
 C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\obj\Debug\PasteBookFinalProject.pdb
-C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookBusinessLogic.dll
-C:\Users\Bootcamp\Source\Repos\PasteBook\PasteBookFinalProject\bin\PasteBookBusinessLogic.pdb
