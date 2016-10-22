@@ -15,6 +15,10 @@ namespace PasteBookFinalProject.Models
 
 
         //[Required]
+        //[Required(ErrorMessage = "Confirm Password field is required")]
+        //[DataType(DataType.Password)]
+        //[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
+        //[Compare("PASSWORD", ErrorMessage = "Password do not match")]
         public string confirmPassword { get; set; }
         public List<REF_COUNTRY> CountryList { get; set; }
 

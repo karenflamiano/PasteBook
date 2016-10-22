@@ -1,11 +1,12 @@
 ﻿@model PasteBookFinalProject.Models.LoginViewModel
 
 @section login{
+
     @using (Html.BeginForm("Home", "Pastebook", FormMethod.Post))
-    {
+ {
         <ul class="nav navbar-nav">
             <li class="login">
-                @Html.ValidationMessageFor(model => model.LoginModel.LoginPassword, "", new { @class = "text-danger" })
+                @Html.ValidationMessage("PasswordOrUsernameError", "", new { @class = "text-danger" })
             </li>
             <li class="login">
                 @Html.EditorFor(model => model.LoginModel.LoginEmail, new { htmlAttributes = new { @class = "form-control", id = "txtEmailAddress", placeholder = "Email Address" } })
@@ -21,7 +22,7 @@
     }
 }
 
-@using (Html.BeginForm("Index", "PasteBook", FormMethod.Post))
+@using (Html.BeginForm("Index", "PasteBook", FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     <!-- Top content -->
     <div class="top-content">
@@ -76,6 +77,7 @@
                 <div class="col-md-6">
                     @Html.EditorFor(model => model.user.EMAIL_ADDRESS, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.user.EMAIL_ADDRESS, "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("emailAddressError", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -118,8 +120,7 @@
                    new SelectListItem{ Text="Male", Value="M"},
                    new SelectListItem{ Text="Female", Value="F"},
                    new SelectListItem{ Text="Unspecified", Value="U"}
-                   }, "Select Gender"
-               )
+                   }, "Select Gender")
                 </div>
                 <div class="col-md-6">
                     @Html.ValidationMessageFor(model => model.user.GENDER, "", new { @class = "text-danger" })
@@ -146,6 +147,7 @@
                 <div class="col-md-6">
                     @Html.EditorFor(model => model.user.USER_NAME, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.user.USER_NAME, "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("userNameError", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -169,12 +171,21 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+         
+            @*<div class="form-group required">
+                <label for="file">Upload Image:</label>
+                <input type="file" name="file" id="file" style="width: 100%;" />
+                @Html.Image(model => model.)
+
+
+            </div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
-}
+        </div>
+    }

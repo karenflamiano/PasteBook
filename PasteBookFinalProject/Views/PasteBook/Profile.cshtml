@@ -1,63 +1,124 @@
-﻿@model PasteBookFinalProject.Models.VMPostUser
+﻿@model PasteBookEntityFramework.USER
 
 @section Login{
 
-    @using (Html.BeginForm("Home", "Pastebook", FormMethod.Post))
-    {
-        <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav">
 
-            <li class="nav-item login">
-                Welcome @Model.UserModelDetails.USER_NAME !
-            </li>
-            <li class="nav-item login">
-                <input class="form-control" type="text" placeholder="Search">
-            </li>
-            <li class="nav-item login">
-                <button class="btn  btn-primary" type="submit">Search</button>
-            </li>
-            @*<li class="nav-item">
-                    @Html.ActionLink("Timeline", "Timeline", "PasteBook")
-                </li>*@
-            <li class="nav-item">
+        <li class="nav-item login">
+            Welcome @Model.USER_NAME !
+        </li>
+        <li class="nav-item login">
+            <input class="form-control" type="text" placeholder="Search">
+        </li>
+        <li class="nav-item login">
+            <button class="btn  btn-primary" type="submit">Search</button>
+        </li>
+        @*<li class="nav-item">
+                @Html.ActionLink("Timeline", "Timeline", "PasteBook")
+            </li>*@
+        @*<li class="nav-item">
                 @Html.ActionLink("Friends", "FriendsView", "PasteBook")
-            </li>
-            <li class="nav-item">
-                @Html.ActionLink("Notifications", "NotificationsView", "PasteBook")
-            </li>
-            <li class="login">
-                <button type="submit" class="btn btn-primary" id="logoutButton">Logout</button>
-            </li>
-        </ul>
-    }
+            </li>*@
+        <li class="nav-item">
+            @Html.ActionLink("Notifications", "NotificationsView", "PasteBook")
+        </li>
+        <li class="login">
+            <button type="submit" class="btn btn-primary" id="logoutButton">Logout</button>
+        </li>
+    </ul>
+
 }
+@Html.Hidden("RedirectToIndex", Url.Action("Logout", "PasteBook"))
+@Html.Hidden("RedirectToProfile", Url.Action("Profile", "PasteBook"))
+<div class="modal fade" id="logout">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="sureLogOut" type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                <button id="notLogOut" type="button" class="btn btn-warning" data-dismiss="modal">CANCEL</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container" id="accountProfile">
 
-
-    <div class="col-md-4 col-md-offset-1">
-        <div class="well well-lg">
-            <img src="~/Content/images/user.png" id="userPicture" />
-        </div>
-
-        <div class="well well-lg">
-
-            @Model.UserModelDetails.FIRST_NAME
-            @Model.UserModelDetails.LAST_NAME
-            @Model.UserModelDetails.BIRTHDAY
-            @Model.UserModelDetails.ABOUT_ME
-            @Model.UserModelDetails.COUNTRY_ID
-            @Model.UserModelDetails.EMAIL_ADDRESS
-
-
-            @Model.UserModelDetails.PROFILE_PIC
-           
+    <div class="modal fade" id="warning">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>You are about to post nothing.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="col-md-4 col-md-offset-1">
+
+@using (Html.BeginForm("Profile", "PasteBook", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+        <div class="well well-lg">
+
+            <input id="fileupload" type="file" />
+            <hr />
+            <b>Live Preview</b>
+            <div id="dvPreview">
+            </div>
+
+            @*<div id="dvPreview">
+
+            </div>
+            <img src="~/Content/images/user.png" id="userPicture" />
+            <label for="file">Upload Image:</label>
+            <input type="file" name="file" id="fileupload" style="width: 100%;" />*@
+            <button type="submit" class="btn btn-primary" id="editProfilePicture">Save Picture</button>
+        </div>
+}
+        <div class="well well-lg">
+            <div class="form-group">
+                <h4>DETAILS</h4>
+                <div>
+                    <span class="glyphicon glyphicon-user">
+                            FULL NAME:
+                        </span>
+                        @Model.FIRST_NAME @Model.LAST_NAME
+                        <span class="glyphicon glyphicon-gift">
+                            BIRTHDAY:
+                        </span>
+                        @Model.BIRTHDAY.ToShortDateString()
+                  
+                        <span class="glyphicon glyphicon-calendar">
+                            STARTED SINCE:
+                        </span>
+                        @Model.BIRTHDAY.ToShortDateString()
+                   
+                        <span class="glyphicon glyphicon-envelope">
+                            EMAIL:
+                        </span>
+                        @Model.EMAIL_ADDRESS
+                  
+            </div>
+        </div>
+
+        <div class="well well-lg" id="aboutMe">
+            <h4>ABOUT ME</h4>
+            @Model.ABOUT_ME
+        </div>
+            <button type="button" class="btn btn-primary" id="editAboutME">Edit About Me</button>
+    </div>
+        </div>
+
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading text-left">
-
-                @Model.UserModelDetails.FIRST_NAME @Model.UserModelDetails.LAST_NAME
+                @Model.FIRST_NAME @Model.LAST_NAME
             </div>
 
             <div class="panel-body">
@@ -86,15 +147,60 @@
     <script>
         var addPost = '@Url.Action("AddPost", "PasteBook")'
         var reloadPostList = '@Url.Action("PostList", "PasteBook")'
+        var addComment = '@Url.Action("AddComment", "PasteBook")'
+        @*var reloadCommentList = '@Url.Action("PostList", "PasteBook")'*@
 
         $(document).ready(function () {
             $("#addPost").click(function () {
-                var data = {
-                    postContent: $('#postContent').val()
+
+                var Content = $('#postContent').val().toString();
+                if (Content.length < 0) {
+                    var data = {
+                        postContent: $('#postContent').val()
+
+                    }
+
+                    $.ajax({
+                        url: addPost,
+                        data: data,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data == null) {
+                                alert("Blank Post!");
+                            }
+                            else {
+                                reload();
+                            }
+                        },
+                        error: function () {
+                            alert('Something went wrong.')
+                        }
+                    })
+                }
+                else {
+                    $('#warning').modal('show');;
                 }
 
+            });
+
+            //refresh contents of the postList partialView
+            function reload() {
+                $("#postRefresh").load(reloadPostList);
+                $("#postContent").val("");
+            };
+
+            //addcomment
+            $("#comment").click(function () {
+
+                var data = {
+                    postID: $(this).val(),
+                    commentContent: $('#commentContent').val()
+                }
+
+                alert(data.postID + " " + data.commentContent);
+
                 $.ajax({
-                    url: addPost,
+                    url: addComment,
                     data: data,
                     type: 'POST',
                     success: function (data) {
@@ -106,11 +212,73 @@
                 })
             });
 
-            //refresh contents of the postList partialView
-            function reload() {
-                $("#postRefresh").load(reloadPostList);
-                $("#postContent").val("");
-            };
+            //logout
+            //stackoverflow.com/questions/12167102/ajax-logout-redirect
+            $("#logoutButton").click(function () {
+                $('#logout').modal('show');
+                $("#sureLogOut").click(function () {
+                    var url = $("#RedirectToIndex").val();
+                    location.href = url;
+                })
+
+                $("#notLogOut").click(function () {
+                    var url = $("#RedirectToProfile").val();
+                    location.href = url;
+                })
+
+            })
+
+            //Preview profile picture
+            //stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
+            //$("#dvPreview").on('change', function () {
+
+            //    if (typeof (FileReader) != "undefined") {
+
+            //        var image_holder = $("#imageHolder");
+            //        image_holder.empty();
+
+            //        var reader = new FileReader();
+            //        reader.onload = function (e) {
+            //            $("<img />", {
+            //                "src": e.target.result,
+            //                "class": "thumb-image"
+            //            }).appendTo(image_holder);
+            //        }
+            //        image_holder.show();
+            //        reader.readAsDataURL($(this)[0].files[0]);
+            //    } else
+            //    {
+            //        alert("This browser does not support FileReader.");
+            //    }
+            //});
+
+            //www.aspsnippets.com/Articles/Show-Display-image-preview-before-upload-using-jQuery.aspx
+            $("#fileupload").change(function () {
+                $("#dvPreview").html("");
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                if (regex.test($(this).val().toLowerCase())) {
+                    if ($.browser.msie && parseFloat(jQuery.browser.version) <= 9.0) {
+                        $("#dvPreview").show();
+                        $("#dvPreview")[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = $(this).val();
+                    }
+                    else {
+                        if (typeof (FileReader) != "undefined") {
+                            $("#dvPreview").show();
+                            $("#dvPreview").append("<img />");
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                $("#dvPreview img").attr("src", e.target.result);
+                            }
+                            reader.readAsDataURL($(this)[0].files[0]);
+                        } else {
+                            alert("This browser does not support FileReader.");
+                        }
+                    }
+                } else {
+                    alert("Please upload a valid image file.");
+                }
+            });
+
 
         });
     </script>

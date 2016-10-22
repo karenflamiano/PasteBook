@@ -32,27 +32,37 @@ namespace PasteBookEntityFramework
         public int ID { get; set; }
 
         [Required]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
         public string USER_NAME { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
         public string PASSWORD { get; set; }
 
 
         public string SALT { get; set; }
 
         [Required]
+        [StringLength(35, ErrorMessage = "{0} must not exceed 35 characters.")]
+        [RegularExpression("[a-zA-Z -']*", ErrorMessage = "{0} should only contain letters and characters: -,'")]
         public string FIRST_NAME { get; set; }
 
         [Required]
+        [StringLength(35, ErrorMessage = "{0} must not exceed 35 characters.")]
+        [RegularExpression("[a-zA-Z -']*", ErrorMessage = "{0} should only contain letters and characters: -,'")]
         public string LAST_NAME { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0: dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
         public System.DateTime BIRTHDAY { get; set; }
 
         
         public Nullable<int> COUNTRY_ID { get; set; }
 
-        
+        [StringLength(16, MinimumLength = 9, ErrorMessage = "{0} must be between 8 and 15 characters long.")]
+        [RegularExpression("[0-9|+][0-9]{8,15}", ErrorMessage = "{0} must follow the specified format. (+63.. or 09..)")]
         public string MOBILE_NO { get; set; }
 
         [Required]
@@ -67,6 +77,9 @@ namespace PasteBookEntityFramework
         public string ABOUT_ME { get; set; }
 
         [Required]
+        //stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+        [StringLength(254, ErrorMessage = "{0} must not exceed {1} characters.")]
+        [DataType(DataType.EmailAddress)]
         public string EMAIL_ADDRESS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

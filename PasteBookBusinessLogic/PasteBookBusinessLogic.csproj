@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLCommentManager.cs" />
+    <Compile Include="BLFriendManager.cs" />
     <Compile Include="BLPostManager.cs" />
     <Compile Include="BLUserManager.cs" />
     <Compile Include="BLCountryManager.cs" />

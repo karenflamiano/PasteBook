@@ -51,7 +51,24 @@ textarea {
     height:200px;
 }
 
+#editProfilePicture{
+    margin-top:10px;
+}
 
+#aboutMe{
+    word-wrap: break-word;
+    height:100%;
+}
+
+.profile{
+    padding-left:0px;
+    padding-right:0px;
+}
+
+img{
+    width:100px;
+    height:100px;
+}
 
 
 

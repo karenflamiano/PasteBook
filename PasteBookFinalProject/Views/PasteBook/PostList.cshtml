@@ -1,14 +1,28 @@
-﻿@model IEnumerable<PasteBookFinalProject.Models.VMPostWithLikeAndComment>
+﻿@model IEnumerable<PasteBookFinalProject.Models.VMPostUser>
 
-    @foreach (var item in Model.Post)
+@*@model PasteBookFinalProject.Models.VMPostUser*@
+
+    @foreach (var item in Model)
     {
         <div class="panel panel-default">
             <div class="panel-heading text-left">
-                @Model.UserModelDetails.FIRST_NAME @Model.UserModelDetails.LAST_NAME
-                @Html.DisplayFor(modelItem => item.CREATED_DATE)
+                @*@Model.user.FIRST_NAME @Model.user.LAST_NAME
+                @item.UserList.*@
+
+               
+                @*@foreach (var user in @item.UserList)
+                {
+
+                    @Html.DisplayFor(modelItem => item.CREATED_DATE)
+                    user.FIRST_NAME,
+                    user.LAST_NAME
+                };*@
+
+
+                @Html.DisplayFor(modelItem => item.CreatedDate)
             </div>
             <div class="panel-body text-left">
-                    @Html.DisplayFor(modelItem => item.CONTENT)
+                    @Html.DisplayFor(modelItem => item.Content)
 
             </div>
             <div class="panel-footer text-left">
@@ -16,7 +30,7 @@
                     @Html.TextBox("commentContent", null, new { @class = "form-control", placeholder="Comment here..", id="commentContent"})
                 </div>
                 <button type="submit" class="btn btn-primary">LIKE</button>
-                <button type="button" class="btn btn-primary" id="comment" value="@item.ID">COMMENT</button>
+                <button type="button" class="btn btn-primary" id="comment" value="@item.PostID">COMMENT</button>
             </div>
         </div>
 

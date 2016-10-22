@@ -1,10 +1,8 @@
-﻿@*@model PasteBookFinalProject.Models.VMPostUser*@
-
+﻿
 @model PasteBookEntityFramework.USER
+
 @section Login{
 
-    @using (Html.BeginForm("Home", "Pastebook", FormMethod.Post))
-    {
         <ul class="nav navbar-nav">
 
             <li class="nav-item login">
@@ -19,9 +17,9 @@
             @*<li class="nav-item">
                 @Html.ActionLink("Timeline", "Timeline", "PasteBook")
             </li>*@
-            <li class="nav-item">
+            @*<li class="nav-item">
                 @Html.ActionLink("Friends", "FriendsView", "PasteBook")
-            </li>
+            </li>*@
             <li class="nav-item">
                 @Html.ActionLink("Notifications", "NotificationsView", "PasteBook")
             </li>
@@ -29,30 +27,60 @@
                 <button type="submit" class="btn btn-primary" id="logoutButton">Logout</button>
             </li>
         </ul>
+
+
     }
-}
+
+
+@Html.Hidden("RedirectToIndex", Url.Action("Logout", "PasteBook"))
+@Html.Hidden("RedirectToHome", Url.Action("Home", "PasteBook"))
+<div class="modal fade" id="logout">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="sureLogOut" type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                <button id="notLogOut" type="button" class="btn btn-warning" data-dismiss="modal">CANCEL</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container" id="accountProfile">
-
+    @*v4-alpha.getbootstrap.com/components/modal/*@
+    <div class="modal fade" id="warning">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>You are about to post nothing.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="col-md-4 col-md-offset-1">
         <div class="well well-lg">
             <img src="~/Content/images/user.png" id="userPicture" />
         </div>
-
         <div class="well well-lg">
             <div>
                 @Html.ActionLink(Model.USER_NAME, "Profile", "PasteBook")
             </div>
             <div>
-                @Html.ActionLink("View FriendsList", "Friend", "PasteBook")
+                @Html.ActionLink("View Friends List", "Friend", "PasteBook")
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading text-left">
-
+                <span class="glyphicon glyphicon-pencil"></span>
                @Model.FIRST_NAME @Model.LAST_NAME
             </div>
 
@@ -74,7 +102,7 @@
     </div>
     </div>
 
-   
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -83,25 +111,32 @@
         var addPost = '@Url.Action("AddPost", "PasteBook")'
         var reloadPostList = '@Url.Action("PostList", "PasteBook")'
         var addComment = '@Url.Action("AddComment", "PasteBook")'
-        @*var reloadCommentList = '@Url.Action("PostList", "PasteBook")'*@
 
         $(document).ready(function () {
+           
             $("#addPost").click(function () {
-                var data = {
-                    postContent: $('#postContent').val()
-                }
-
-                $.ajax({
-                    url: addPost,
-                    data: data,
-                    type: 'POST',
-                    success: function (data) {
-                        reload();
-                    },
-                    error: function () {
-                        alert('Something went wrong.')
+                var Content = $('#postContent').val();
+                if (Content.length > 0)
+                {
+                    var data = {
+                        postContent: $('#postContent').val()
                     }
-                })
+                    $.ajax({
+                        url: addPost,
+                        data: data,
+                        type: 'POST',
+                        success: function (data) {
+                            reload();
+                        },
+                        error: function () {
+                            alert('Something went wrong.')
+                        }
+                    });
+                }
+                else {
+                    $('#warning').modal('show');;
+                }
+               
             });
 
             //refresh contents of the postList partialView
@@ -110,20 +145,21 @@
                 $("#postContent").val("");
             };
 
+            //addcomment
             $("#comment").click(function () {
-
+                
                 var data = {
                     postID: $(this).val(),
                     commentContent: $('#commentContent').val()
                 }
-
                 alert(data.postID + " " + data.commentContent);
-
+                //alert(data.postID + " " + data.commentContent);
                 $.ajax({
                     url: addComment,
                     data: data,
                     type: 'POST',
                     success: function (data) {
+                        
                         reload();
                     },
                     error: function () {
@@ -132,11 +168,21 @@
                 })
             });
 
-            //refresh contents of the postList partialView
-            function reload() {
-                $("#postRefresh").load(reloadPostList);
-                $("#postContent").val("");
-            };
+            //logout
+            //stackoverflow.com/questions/12167102/ajax-logout-redirect
+            $("#logoutButton").click(function () {
+                $('#logout').modal('show');
+                $("#sureLogOut").click(function () {
+                    var url = $("#RedirectToIndex").val();
+                    location.href = url;
+                });
+
+                $("#notLogOut").click(function () {
+                    var url = $("#RedirectToHome").val();
+                    location.href = url;
+                });
+
+            });
 
         });
     </script>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PasteBookEntityFramework;
+using System.IO;
 
 namespace PasteBookFinalProject.Controllers
 {
@@ -33,18 +34,17 @@ namespace PasteBookFinalProject.Controllers
         [HttpPost]
         public ActionResult Index(LoginViewModel model)
         {
-            //Adding image 
-            //stackoverflow.com/questions/17952514/mvc-how-to-display-a-byte-array-image-from-model
-
-            //AddImage
+           
             if (userManager.CheckIfEmailAddressExists(model.user))
             {
-                ModelState.AddModelError("EMAIL_ADDRESS", "Email Address already exists.");
+                ModelState.AddModelError("emailAddressError", "Email Address already exists.");
+                return View();
             }
 
             if (userManager.CheckIfUsernameExists(model.user.USER_NAME))
             {
-                ModelState.AddModelError("USER_NAME", "Username already exists.");
+                ModelState.AddModelError("userNameError", "Username already exists.");
+                return View();
             }
 
             if (ModelState.IsValid)
@@ -82,27 +82,34 @@ namespace PasteBookFinalProject.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("LoginModel.LoginPassword", "Invalid Username or Password");
+                    ModelState.AddModelError("PasswordOrUsernameError", "Invalid Username or Password");
+                    //return View();
                     return RedirectToAction("Index");
                 }
             }
             else
             {
                 return RedirectToAction("Home");
+                //return View();
             }
+        }
+
+        public ActionResult Logout()
+        {
+            return RedirectToAction("Index");
         }
 
         public JsonResult AddPost(string postContent)
         {
             USER model = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
             POST postModel = new POST();
-
             postModel.POSTER_ID = model.ID;
             postModel.PROFILE_OWNER_ID = model.ID;
             postModel.CONTENT = postContent;
             postModel.CREATED_DATE = DateTime.Now;
+            int result = postManager.AddPost(postModel);
             
-            int result =  postManager.AddPost(postModel);
+
             return Json(new { result = result } ); 
         }
 
@@ -121,41 +128,41 @@ namespace PasteBookFinalProject.Controllers
 
 
 
-        public PartialViewResult PostList(int ID)
+        public PartialViewResult PostList()
         {
-            //VMPostWithLikeAndComment postView = new VMPostWithLikeAndComment();
-            //USER user = new USER();
-            VMPostUser vm = new VMPostUser();
-            //vm.CommentList = 
-            //user = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
-            //postView.postList
-            //int ID = Convert.ToInt32(Session["ID"]);
-            List<POST> postList = postManager.NewsFeedPosts(ID);
-            
-            List<COMMENT> commentList = new List<COMMENT>();
-            List<LIKE> likeList = new List<LIKE>();
+            Mapper mapper = new Mapper();
+            int ID = (int)Session["ID"];
+            List<POST> PostList = new List<POST>();
+            PostList = postManager.NewsFeedPosts(ID);
+            return PartialView("PostList", mapper.PostMapToModel(PostList, null, null, null));
 
-
-            foreach (var item in postList)
-            {
-               
-                commentList = commentManager.ListOfComments(item.ID);      
-            }
-
-            return PartialView("PostList", postList);
         }
 
       
 
-        public ActionResult Timeline()
-        {
-            return View();
-        }
-
         [HttpGet]
-        public ActionResult ProfileView()
+        public ActionResult Profile(HttpPostedFileBase file)
         {
+            //Adding image 
+            //stackoverflow.com/questions/17952514/mvc-how-to-display-a-byte-array-image-from-model
+            //stackoverflow.com/questions/16255882/uploading-displaying-images-in-mvc-4
+
+            //AddImage
             USER userModel = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
+
+            if (file != null)
+            {
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    userModel.PROFILE_PIC = ms.GetBuffer();
+                    
+                }
+            }
+
             return View(userModel);
         }
 
