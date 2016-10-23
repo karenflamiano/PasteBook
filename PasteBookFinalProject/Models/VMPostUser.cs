@@ -9,7 +9,6 @@ namespace PasteBookFinalProject.Models
 {
     public class VMPostUser
     {
-        //public List<POST> listOfPost { get; set; }
         public int PostID { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Content { get; set; }
@@ -22,9 +21,13 @@ namespace PasteBookFinalProject.Models
         public List<USER> FriendList { get; set; }
 
 
-        string fullname { get; set; }
+        public string fullname { get; set; }
         public byte[] profilePicture { get; set; }
         public List<USER> UserList { get; set; }
 
+        public VMPostUser()
+        {
+            UserList = new List<USER>();
+        }
     }
 }

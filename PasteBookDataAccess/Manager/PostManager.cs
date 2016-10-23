@@ -9,6 +9,8 @@ namespace PasteBookDataAccess.Manager
 {
     public class PostManager
     {
+        FriendManager friendManager = new FriendManager();
+
         List<Exception> ListOfException = new List<Exception>();
 
         public int AddPostToDB(POST post)
@@ -46,11 +48,12 @@ namespace PasteBookDataAccess.Manager
             return listOfPosts;
         }
         
+
+
         public List<POST> NewsFeedListOfPosts(int userID)
         {
             List<POST> listOfPosts = new List<POST>();
             List<USER> listOfFriends = new List<USER>();
-            List<POST> finalListOfPost = new List<POST>();
             try
             {
                 using (var context = new PASTEBOOKEntities1())
@@ -69,6 +72,8 @@ namespace PasteBookDataAccess.Manager
                         });
 
                     }
+                    //listOfFriends = friendManager.GetAllFriends(userID);
+
                     listOfFriends = GetUserFriend(userID);
 
                     foreach (var item in listOfFriends)
@@ -86,15 +91,13 @@ namespace PasteBookDataAccess.Manager
                             });
                         }
                     }
-
-                    finalListOfPost = listOfPosts.OrderByDescending(x => x.CREATED_DATE).Take(100).ToList();
                 }
             }
             catch (Exception ex)
             {
                 ListOfException.Add(ex);
             }
-            return finalListOfPost;
+            return listOfPosts.OrderByDescending(x => x.CREATED_DATE).Take(100).ToList();
         }
 
         private List<USER> GetUserFriend(int UserID)

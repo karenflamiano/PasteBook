@@ -1,0 +1,19 @@
+﻿@model IEnumerable<PasteBookEntityFramework.COMMENT>
+
+@foreach (var item in Model)
+{
+    <div class="panel panel-default" id="comment">
+        <div class="panel-heading text-left">
+            @Html.DisplayFor(modelItem => item.ID)
+            @Html.DisplayFor(modelItem => item.POSTER_ID)
+        </div>
+        <div class="panel-body text-left">
+
+            @Html.DisplayFor(modelItem => item.CONTENT)
+
+        </div>
+        <div class="panel-footer text-left">
+            @Html.DisplayFor(modelItem => item.DATE_CREATED)
+        </div>
+    </div>
+}

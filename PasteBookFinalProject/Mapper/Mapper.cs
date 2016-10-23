@@ -19,7 +19,8 @@ namespace PasteBookFinalProject
                     Content = item.CONTENT,
                     CreatedDate = item.CREATED_DATE,
                     PostID = item.ID,
-                    PosterID  =item.POSTER_ID,
+                    PosterID = item.POSTER_ID,
+
                     LikeList = likeList,
                     CommentList = commentList,
                     FriendList = friendsList

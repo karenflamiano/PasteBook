@@ -12,17 +12,16 @@
                 @Html.EditorFor(model => model.LoginModel.LoginEmail, new { htmlAttributes = new { @class = "form-control", id = "txtEmailAddress", placeholder = "Email Address" } })
             </li>
             <li class="login">
-                @Html.EditorFor(model => model.LoginModel.LoginPassword, new { htmlAttributes = new { @class = "form-control", id = "txtLoginPasssword", placeholder = "Password" } })
+                @Html.EditorFor(model => model.LoginModel.LoginPassword, new { htmlAttributes = new { @class = "form-control", id = "txtLoginPasssword", placeholder = "Password" , type="password"} })
             </li>
             <li class="login">
                 <button type="submit" class="btn btn-primary">Login</button>
             </li>
         </ul>
-
     }
 }
 
-@using (Html.BeginForm("Index", "PasteBook", FormMethod.Post, new { enctype = "multipart/form-data"}))
+@using (Html.BeginForm("Index", "PasteBook", FormMethod.Post))
 {
     <!-- Top content -->
     <div class="top-content">
@@ -141,7 +140,7 @@
 
         <div class="col-md-6">
             <div class="form-group required">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     @Html.LabelFor(model => model.user.USER_NAME, new { @class = "control-label col-md-2" })
                 </div>
                 <div class="col-md-6">
@@ -152,33 +151,24 @@
             </div>
 
             <div class="form-group required">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     @Html.LabelFor(model => model.user.PASSWORD, new { @class = "control-label col-md-2" })
                 </div>
                 <div class="col-md-6">
-                    @Html.EditorFor(model => model.user.PASSWORD, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.user.PASSWORD, new { htmlAttributes = new { @class = "form-control", type = "password" } })
                     @Html.ValidationMessageFor(model => model.user.PASSWORD, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group required">
-                <div class="col-md-3">
-                    @Html.LabelFor(model => model.confirmPassword, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.CONFIRM_PASSWORD, new { @class = "control-label col-md-2" })
                 </div>
                 <div class="col-md-6">
-                    @Html.EditorFor(model => model.confirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.CONFIRM_PASSWORD, new { htmlAttributes = new { @class = "form-control", type="password" } })
+                    @Html.ValidationMessageFor(model => model.CONFIRM_PASSWORD, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-         
-            @*<div class="form-group required">
-                <label for="file">Upload Image:</label>
-                <input type="file" name="file" id="file" style="width: 100%;" />
-                @Html.Image(model => model.)
-
-
-            </div>*@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">

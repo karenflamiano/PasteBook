@@ -152,30 +152,22 @@
 
         $(document).ready(function () {
             $("#addPost").click(function () {
-
-                var Content = $('#postContent').val().toString();
-                if (Content.length < 0) {
+                var Content = $('#postContent').val();
+                if (Content.length > 0) {
                     var data = {
                         postContent: $('#postContent').val()
-
                     }
-
                     $.ajax({
                         url: addPost,
                         data: data,
                         type: 'POST',
                         success: function (data) {
-                            if (data == null) {
-                                alert("Blank Post!");
-                            }
-                            else {
-                                reload();
-                            }
+                            reload();
                         },
                         error: function () {
                             alert('Something went wrong.')
                         }
-                    })
+                    });
                 }
                 else {
                     $('#warning').modal('show');;
@@ -190,15 +182,13 @@
             };
 
             //addcomment
-            $("#comment").click(function () {
-
+            //addcomment
+            $(document).on("click", ".btn_comment", function () {
                 var data = {
-                    postID: $(this).val(),
-                    commentContent: $('#commentContent').val()
+                    commentContent: $('#commentContent' + $(this).val()).val(),
+                    postID: $(this).val()
                 }
-
-                alert(data.postID + " " + data.commentContent);
-
+                //alert(data.postID + " " + data.commentContent);
                 $.ajax({
                     url: addComment,
                     data: data,
@@ -207,9 +197,9 @@
                         reload();
                     },
                     error: function () {
-                        alert('Something went wrong.')
+                        alert('NO NONO')
                     }
-                })
+                });
             });
 
             //logout

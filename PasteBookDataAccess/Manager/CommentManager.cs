@@ -35,7 +35,7 @@ namespace PasteBookDataAccess
             {
                 using (var context = new PASTEBOOKEntities1())
                 {
-                    var result = context.COMMENTs.Where(x => x.ID == postID).ToList();
+                    listOfPosts = context.COMMENTs.Where(x => x.POST_ID == postID).OrderByDescending(x => x.DATE_CREATED).Take(100).ToList();
                 }
             }
             catch (Exception ex)

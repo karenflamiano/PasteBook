@@ -32,7 +32,7 @@ namespace PasteBookFinalProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(LoginViewModel model)
+        public ActionResult Index([Bind(Include = "USER")]LoginViewModel model)
         {
            
             if (userManager.CheckIfEmailAddressExists(model.user))
@@ -49,7 +49,11 @@ namespace PasteBookFinalProject.Controllers
 
             if (ModelState.IsValid)
             {
+                Session["User"] = model.user.EMAIL_ADDRESS;
+                Session["ID"] = userManager.GetAccountIDUsingEmail(Session["User"].ToString());
+                USER userModel = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
                 userManager.AddUserAccount(model.user);
+                return RedirectToAction("Home", "PasteBook");
             }
             return RedirectToAction("Index");
         }
@@ -59,6 +63,7 @@ namespace PasteBookFinalProject.Controllers
         {
             USER model = new USER();
             model = userManager.GetAccountDetailsUsingEmail(Session["User"].ToString());
+            Session["ID"] = userManager.GetAccountIDUsingEmail(Session["User"].ToString());
             return View(model);
         }
 
@@ -83,19 +88,19 @@ namespace PasteBookFinalProject.Controllers
                 else
                 {
                     ModelState.AddModelError("PasswordOrUsernameError", "Invalid Username or Password");
-                    //return View();
-                    return RedirectToAction("Index");
+                    return View("Home");
                 }
             }
             else
             {
                 return RedirectToAction("Home");
-                //return View();
             }
         }
 
         public ActionResult Logout()
         {
+            Session["User"] = null;
+            Session["ID"] = null;
             return RedirectToAction("Index");
         }
 
@@ -125,9 +130,7 @@ namespace PasteBookFinalProject.Controllers
             int result = commentManager.AddComment(commentModel);
             return Json(new { result = result });
         }
-
-
-
+        
         public PartialViewResult PostList()
         {
             Mapper mapper = new Mapper();
@@ -135,10 +138,15 @@ namespace PasteBookFinalProject.Controllers
             List<POST> PostList = new List<POST>();
             PostList = postManager.NewsFeedPosts(ID);
             return PartialView("PostList", mapper.PostMapToModel(PostList, null, null, null));
-
         }
 
-      
+
+        public PartialViewResult CommentList(int postID)
+        {
+            List<COMMENT> CommentList = new List<COMMENT>();
+            CommentList = commentManager.ListOfComments(postID);
+            return PartialView(CommentList);
+        }
 
         [HttpGet]
         public ActionResult Profile(HttpPostedFileBase file)
