@@ -31,7 +31,7 @@ namespace PasteBookEntityFramework
         
         public int ID { get; set; }
 
-       
+      
         public string USER_NAME { get; set; }
 
        

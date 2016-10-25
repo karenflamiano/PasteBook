@@ -11,8 +11,6 @@ namespace PasteBookFinalProject.Models
     {
         public UserLoginModel LoginModel { get; set; }
         public USER user { get; set; }
-
-
         public string CONFIRM_PASSWORD { get; set; }
         public List<REF_COUNTRY> CountryList { get; set; }
 

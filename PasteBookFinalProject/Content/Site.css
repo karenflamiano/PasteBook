@@ -69,4 +69,47 @@ textarea {
     margin-top:20px;
 }
 
+#signUp{
+    display:none;
+}
 
+
+.thumb-image{
+    height:250px;
+    width:250px;
+}
+.profilePicture{
+    width:250px;
+    height:250px;
+}
+#like{
+    color:blue;
+}
+
+#settings{
+    margin-top:75px;
+}
+
+#friendList{
+    margin-top:75px;
+    width:50%;
+}
+
+.friendPicture{
+    width:150px;
+    height:150px;
+}
+
+.friends{
+    margin-left:20px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.homeButton{
+    margin-top:10px;
+}
+
+.btnHome{
+    width:200px;
+}

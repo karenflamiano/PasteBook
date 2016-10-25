@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BLCommentManager.cs" />
     <Compile Include="BLFriendManager.cs" />
+    <Compile Include="BLLikeManager.cs" />
     <Compile Include="BLPostManager.cs" />
     <Compile Include="BLUserManager.cs" />
     <Compile Include="BLCountryManager.cs" />

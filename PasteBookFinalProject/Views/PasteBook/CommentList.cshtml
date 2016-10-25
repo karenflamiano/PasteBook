@@ -4,8 +4,10 @@
 {
     <div class="panel panel-default" id="comment">
         <div class="panel-heading text-left">
-            @Html.DisplayFor(modelItem => item.ID)
-            @Html.DisplayFor(modelItem => item.POSTER_ID)
+            <b>
+                @Html.DisplayFor(modelItem => item.USER.FIRST_NAME)
+                @Html.DisplayFor(modelItem => item.USER.LAST_NAME)
+            </b>
         </div>
         <div class="panel-body text-left">
 

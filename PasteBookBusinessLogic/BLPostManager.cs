@@ -18,9 +18,9 @@ namespace PasteBookBusinessLogic
             result = finalPost.AddPostToDB(post);
             return result;
         }
-        public List<POST> NewsFeedPosts(int ID)
+        public List<POST> NewsFeedPosts(List<FRIEND> listOfFriend, int userID, int profileOwnerID)
         {
-            return finalPost.NewsFeedListOfPosts(ID);
+            return finalPost.NewsFeedListOfPosts(listOfFriend,userID, profileOwnerID);
         }
         
     }

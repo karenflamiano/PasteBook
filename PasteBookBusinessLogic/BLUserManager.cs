@@ -3,9 +3,11 @@ using PasteBookDataAccess.Manager;
 using PasteBookEntityFramework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace PasteBookBusinessLogic
 {
@@ -13,6 +15,7 @@ namespace PasteBookBusinessLogic
     {
         UserManager userManager = new UserManager();
         PasswordManager pwdManager = new PasswordManager();
+        PasteBookDataAccess<USER> userDataAccess = new PasteBookDataAccess<USER>();
       
 
         public void AddUserAccount(USER user)
@@ -27,6 +30,13 @@ namespace PasteBookBusinessLogic
         {
             bool returnValue;
             returnValue = userManager.CheckIfUsernameExists(username);
+            return returnValue;
+        }
+
+        public bool CheckIfEmailExists(string email)
+        {
+            bool returnValue;
+            returnValue = userManager.CheckIfEmailExists(email);
             return returnValue;
         }
 
@@ -51,11 +61,11 @@ namespace PasteBookBusinessLogic
             }
         }
         
+        //used email to retreive the user details, GetAccountEmailAddress
         public bool PasswordInputAndPasswordFromDBMatch(string email, string password)
         {
             bool result;
             USER user = userManager.GetAccountEmailAddress(email);
-
             return result = IsPasswordMatch(password, user.SALT, user.PASSWORD);
         }
 
@@ -67,16 +77,39 @@ namespace PasteBookBusinessLogic
         }
 
 
-        public USER GetAccountDetailsUsingEmail(string email)
-        {
-            return userManager.GetAccountEmailAddress(email);
-        }
-
         public int GetAccountIDUsingEmail(string emailAddress)
         {
             return userManager.GetIDUSingEmailAddress(emailAddress);
         }
 
-    }
+        public bool UploadImage(USER user, HttpPostedFileBase file)
+        {
+            byte[] profilePic = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                file.InputStream.CopyTo(ms);
+                profilePic = ms.GetBuffer();
+            }
+            user.PROFILE_PIC = profilePic;
+            return userDataAccess.Edit(user);
+        }
 
+        public bool EditAboutMe(USER user, string about)
+        {
+            user.ABOUT_ME = about;
+            return userDataAccess.Edit(user);
+        }
+
+        public int EditUserAccount(USER user, int ID)
+        {
+            return userManager.UpdateUserInformation(user,ID);
+        }
+
+        public USER GetUserDetailsUsingID(int ID)
+        {
+            return userManager.GetUserDetailsUsingID(ID);
+        }
+
+
+    }
 }

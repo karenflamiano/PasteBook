@@ -32,8 +32,6 @@ namespace PasteBookDataAccess.Manager
 
         }
 
-       
-
         public USER GetAccountEmailAddress(string emailAddress)
         {
             USER result = new USER();
@@ -42,6 +40,24 @@ namespace PasteBookDataAccess.Manager
                 using (var context = new PASTEBOOKEntities1())
                 {
                     result = context.USERs.Where(x => x.EMAIL_ADDRESS == emailAddress).SingleOrDefault();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ListOfException.Add(ex);
+            }
+            return result;
+        }
+
+        public USER GetUserDetailsUsingID(int ID)
+        {
+            USER result = new USER();
+            try
+            {
+                using (var context = new PASTEBOOKEntities1())
+                {
+                    result = context.USERs.Where(x => x.ID == ID).SingleOrDefault();
                 }
 
             }
@@ -103,6 +119,60 @@ namespace PasteBookDataAccess.Manager
             }
         }
 
+        public int UpdateUserInformation(USER user, int userID)
+        {
+            int numberUpdated = 0;
+            try
+            {
+                using (var context = new PASTEBOOKEntities1())
+                {
+
+                    USER record = context.USERs.Where(x => x.ID == userID).SingleOrDefault();
+                    if (record != null)
+                    {
+                        record.USER_NAME = user.USER_NAME;
+                        record.FIRST_NAME = user.FIRST_NAME;
+                        record.LAST_NAME = user.LAST_NAME;
+                        record.BIRTHDAY = user.BIRTHDAY;
+                        record.COUNTRY_ID = user.COUNTRY_ID;
+                        record.MOBILE_NO = user.MOBILE_NO;
+                        record.GENDER = user.GENDER;
+                        numberUpdated = context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ListOfException.Add(ex);
+
+            }
+            return numberUpdated;
+        }
+
+        public int UpdateUserCredentials(USER user, int userID)
+        {
+            int numberUpdated = 0;
+            try
+            {
+                using (var context = new PASTEBOOKEntities1())
+                {
+
+                    USER record = context.USERs.Where(x => x.ID == userID).SingleOrDefault();
+                    if (record != null)
+                    {
+                        record.EMAIL_ADDRESS = user.EMAIL_ADDRESS;
+                        record.PASSWORD = user.PASSWORD;
+                        numberUpdated = context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ListOfException.Add(ex);
+
+            }
+            return numberUpdated;
+        }
 
     }
 }
