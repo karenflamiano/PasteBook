@@ -67,6 +67,11 @@ textarea {
 
 #comment{
     margin-top:20px;
+    color:saddlebrown;
+    margin-left:0px;
+    padding-left: 0px;
+    text-align: left;
+    margin-bottom:10px;
 }
 
 #signUp{
@@ -113,3 +118,61 @@ textarea {
 .btnHome{
     width:200px;
 }
+
+
+.row{
+    margin-left:0px;
+    padding-left:0px;
+}
+
+#commentDate{
+    font-size:10px;
+    margin-left: 1cm;
+}
+
+#commentContent{
+    margin-left: 2cm;
+}
+
+#commentHeader{
+    margin-left: 1cm;
+}
+
+.postPicture{
+    width:50px;
+    height:50px;
+}
+
+/*.badge-notify{
+   background:red;
+   position:relative;
+   top: 0px;
+   right:20px;
+  }*/
+
+.btn btn-default btn-lg btn-link{
+    font-size:36px;
+}
+
+.friend {
+    background-color: #e6ffe6;
+    margin-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#error{
+    color:#fe0000;
+}
+.asterisk{
+    margin-left:100px;
+}
+.firstAsterisk{
+    margin-left:140px;
+}
+
+.registerClass{
+    margin-left:0px;
+    padding-left:0px;
+}
+

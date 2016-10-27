@@ -1,15 +1,14 @@
 ﻿@model PasteBookFinalProject.Models.LoginViewModel
 
 @section login{
-
-    @using (Html.BeginForm("Home", "Pastebook", FormMethod.Post))
+@using (Html.BeginForm("Home", "PasteBook", FormMethod.Post))
  {
         <ul class="nav navbar-nav">
             <li class="login">
-                @Html.ValidationMessage("PasswordOrUsernameError", "", new { @class = "text-danger" })
+                <label id="error">@ViewBag.Error</label>
             </li>
             <li class="login">
-                @Html.EditorFor(model => model.LoginModel.LoginEmail, new { htmlAttributes = new { @class = "form-control", id = "txtEmailAddress", placeholder = "Email Address" } })
+                @Html.EditorFor(model => model.LoginModel.LoginEmail, new { htmlAttributes = new { @class = "form-control", id = "txtEmailAddress", placeholder = "email@yahoo.com" } })
             </li>
             <li class="login">
                 @Html.EditorFor(model => model.LoginModel.LoginPassword, new { htmlAttributes = new { @class = "form-control", id = "txtLoginPasssword", placeholder = "Password" , type="password"} })
@@ -33,7 +32,9 @@
                         </p>
                         <p>
                             Don't have an account? Feel free to create one.
-                            <button type="button" id="signUpButton" class="btn btn-link">Sign Up Here</button>
+                        </p>
+                        <p>
+                            Fields with * are required fields.
                         </p>
                     </div>
                 </div>
@@ -42,47 +43,56 @@
         </div>
     </div>
 
-
-<div id="signUp">
     @using (Html.BeginForm("Index", "PasteBook", FormMethod.Post))
     {
-        <div class="form-horizontal">
+        <div class="form-horizontal registerClass">
             <div class="col-md-6">
                 <div class="form-group required">
-                    <div class="col-md-3 col-md-offset-3">
+                    <div class="col-md-3">
+                        <label class="firstAsterisk">*</label>
+                    </div>
+                    <div class="col-md-3">
                         @Html.LabelFor(model => model.user.FIRST_NAME, new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.user.FIRST_NAME, new { htmlAttributes = new { @class = "form-control ", id = "txtEmail" } })
+                        @Html.EditorFor(model => model.user.FIRST_NAME, new { htmlAttributes = new { @class = "form-control ", id = "txtEmail", required = "required" } })
                         @Html.ValidationMessageFor(model => model.user.FIRST_NAME, "", new { @class = "text-danger" })
                         <span id="msgForEmail" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="form-group required">
-                    <div class="col-md-3 col-md-offset-3">
+                    <div class="col-md-3">
+                        <label class="firstAsterisk">*</label>
+                    </div>
+                    <div class="col-md-3">
                         @Html.LabelFor(model => model.user.LAST_NAME, new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.user.LAST_NAME, new { htmlAttributes = new { @class = "form-control", id = "txtUsername" } })
+                        @Html.EditorFor(model => model.user.LAST_NAME, new { htmlAttributes = new { @class = "form-control", id = "txtUsername", required = "required" } })
                         @Html.ValidationMessageFor(model => model.user.LAST_NAME, "", new { @class = "text-danger" })
                         <span id="msgForUsername" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="form-group required">
-                    <div class="col-md-3 col-md-offset-3">
+                    <div class="col-md-3">
+                        <label class="firstAsterisk">*</label>
+                    </div>
+                    <div class="col-md-3">
                         @Html.LabelFor(model => model.user.EMAIL_ADDRESS, new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.user.EMAIL_ADDRESS, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.user.EMAIL_ADDRESS, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                         @Html.ValidationMessageFor(model => model.user.EMAIL_ADDRESS, "", new { @class = "text-danger" })
-                        @Html.ValidationMessage("emailAddressError", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group required">
-                    <div class="col-md-3 col-md-offset-3">
+                    <div class="col-md-3">
+                        <label class="firstAsterisk">*</label>
+                    </div>
+                    <div class="col-md-3">
                         @Html.LabelFor(model => model.user.BIRTHDAY, new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-md-6">
@@ -92,27 +102,33 @@
                 </div>
 
                 <div class="form-group required">
-                    <div class="col-md-3 col-md-offset-3">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-3">
                         @Html.LabelFor(model => model.user.COUNTRY_ID, new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-md-6">
-                        @Html.DropDownListFor(model => model.user.COUNTRY_ID, new SelectList(Model.CountryList, "ID", "COUNTRY"), new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DropDownListFor(model => model.user.COUNTRY_ID, new SelectList(Model.CountryList, "ID", "COUNTRY"),  new { @class = "form-control"})
                         @Html.ValidationMessageFor(model => model.user.COUNTRY_ID, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group required">
-                    <div class="col-md-3 col-md-offset-3">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-3">
                         @Html.LabelFor(model => model.user.MOBILE_NO, new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.user.MOBILE_NO, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                        @Html.EditorFor(model => model.user.MOBILE_NO, new { htmlAttributes = new { @class = "form-control", type = "number" } })
                         @Html.ValidationMessageFor(model => model.user.MOBILE_NO, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group required">
-                    <div class="col-md-3 col-md-offset-3">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-3">
                         @Html.LabelFor(model => model.user.GENDER, new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-md-6">
@@ -120,7 +136,7 @@
                    new SelectListItem{ Text="Male", Value="M"},
                    new SelectListItem{ Text="Female", Value="F"},
                    new SelectListItem{ Text="Unspecified", Value="U"}
-                   }, "Select Gender")
+                   }, "Select Gender", new { @class = "form-control" })
                     </div>
                     <div class="col-md-6">
                         @Html.ValidationMessageFor(model => model.user.GENDER, "", new { @class = "text-danger" })
@@ -128,45 +144,44 @@
 
                 </div>
 
-                <div class="form-group required">
-                    <div class="col-md-3 col-md-offset-3">
-                        @Html.LabelFor(model => model.user.ABOUT_ME, new { @class = "control-label col-md-2" })
-                    </div>
-                    <div class="col-md-6">
-                        @Html.TextAreaFor(model => model.user.ABOUT_ME, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.user.ABOUT_ME, "", new { @class = "text-danger" })
-                    </div>
-                </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group required">
+                    <div class="col-md-2">
+                        <label class="asterisk">*</label>
+                    </div>
                     <div class="col-md-4">
                         @Html.LabelFor(model => model.user.USER_NAME, new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.user.USER_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.user.USER_NAME, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                         @Html.ValidationMessageFor(model => model.user.USER_NAME, "", new { @class = "text-danger" })
-                        @Html.ValidationMessage("userNameError", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group required">
+                    <div class="col-md-2">
+                        <label class="asterisk">*</label>
+                    </div>
                     <div class="col-md-4">
                         @Html.LabelFor(model => model.user.PASSWORD, new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.user.PASSWORD, new { htmlAttributes = new { @class = "form-control", type = "password" , id = "txtNewPassword" } })
+                        @Html.EditorFor(model => model.user.PASSWORD, new { htmlAttributes = new { @class = "form-control", type = "password" , id = "txtNewPassword", required = "required" } })
                         @Html.ValidationMessageFor(model => model.user.PASSWORD, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group required">
+                    <div class="col-md-2">
+                        <label class="asterisk">*</label>
+                    </div>
                     <div class="col-md-4">
                         @Html.LabelFor(model => model.CONFIRM_PASSWORD, new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.CONFIRM_PASSWORD, new { htmlAttributes = new { @class = "form-control", type="password", id = "txtConfirmPassword", onChange="checkPasswordMatch()" } })
+                        @Html.EditorFor(model => model.CONFIRM_PASSWORD, new { htmlAttributes = new { @class = "form-control", type="password", id = "txtConfirmPassword", onChange="checkPasswordMatch()", required = "required" } })
                         @Html.ValidationMessageFor(model => model.CONFIRM_PASSWORD, "", new { @class = "text-danger" })
                         <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
                     </div>
@@ -178,40 +193,21 @@
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
     }
-</div>
 
 
 @section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
+   
 <script>
-    $(function () {
-        $("#signUp").hide();
-        $("#signUpButton").click(function () {
-            $("#signUp").toggle(1000 );
-        });
-
+   @Scripts.Render("~/bundles/jqueryval")
+    //stackoverflow.com/questions/21727317/how-to-check-confirm-password-field-in-form-without-reloading-page
+    $('#txtNewPassword, #txtConfirmPassword').on('keyup', function () {
+        if ($('#txtNewPassword').val() == $('#txtConfirmPassword').val()) {
+            $('#divCheckPasswordMatch').html('Passwords match.').css('color', 'green');
+        } else
+            $('#divCheckPasswordMatch').html('Passwords do not match!').css('color', 'red');
     });
-
-    //stackoverflow.com/questions/9717588/checking-password-match-while-typing
-    $(function checkPasswordMatch() {
-        var password = $("#txtNewPassword").val();
-        var confirmPassword = $("#txtConfirmPassword").val();
-
-        if (password != confirmPassword)
-            $("#divCheckPasswordMatch").html("Passwords do not match!");
-        else
-            $("#divCheckPasswordMatch").html("Passwords match.");
-    });
-
-    $(document).ready(function () {
-        $("#txtNewPassword, #txtConfirmPassword").keyup(checkPasswordMatch);
-    });
-
     </script>
+
     }

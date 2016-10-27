@@ -1,27 +1,11 @@
 ﻿@model PasteBookEntityFramework.USER
 
-@section Login{
-    <ul class="nav navbar-nav">
-        <li class="nav-item login">
-            Welcome @Model.USER_NAME !
-        </li>
-        <li class="nav-item login">
-            <input class="form-control" type="text" placeholder="Search">
-        </li>
-        <li class="nav-item login">
-            <button class="btn  btn-primary" type="submit">Search</button>
-        </li>
-        <li class="nav-item">
-            @Html.ActionLink("Notifications", "NotificationsView", "PasteBook")
-        </li>
-        <li class="nav-item">
-            @Html.ActionLink("Settings", "Settings", "PasteBook")
-        </li>
-        <li class="login">
-            <button type="submit" class="btn btn-primary" id="logoutButton">Logout</button>
-        </li>
-    </ul>
+
+@{ 
+    var ID = Session["ID"];
+    var friendshipStatus = ViewData["FriendshipStatus"].ToString();
 }
+
 
 @Html.Hidden("RedirectToIndex", Url.Action("Logout", "PasteBook"))
 @Html.Hidden("RedirectToProfile", Url.Action("Profile", "PasteBook"))
@@ -68,7 +52,7 @@
         </div>
     </div>
 
-   
+
     <div class="modal fade" id="editAboutMe">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -85,7 +69,6 @@
                         <button type="submit" class="btn btn-secondary" id="saveAboutMe">SAVE</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
-
                 }
             </div>
         </div>
@@ -93,6 +76,7 @@
 
     <div class="col-md-4 col-md-offset-1">
         <div class="well well-lg">
+
             @{
                 if (Model.PROFILE_PIC == null)
                 {
@@ -107,25 +91,54 @@
             }
         </div>
 
-        @using (Html.BeginForm("UploadImage", "PasteBook", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <div class="well well-lg">
-                <h4>Change Profile Picture</h4>
+        @{
+            if (Model.ID == (Int32)Session["ID"])
+            {
+                using (Html.BeginForm("UploadImage", "PasteBook", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="well well-lg">
+                        <h4>Change Profile Picture</h4>
+                            <div class="wrapper">
+                                <div class="col-md-12">
+                                    <div id="imageHolder"> </div>
+                                    <input id="uploadImage" title="Upload an Image" type="file" name="file" />
+                                </div>
+                            </div>
+                        @Html.ValidationMessageFor(model => model.PROFILE_PIC, "", new { @class = "text-danger", id = "errorValidation" })
 
-                <div class="wrapper">
-                    <div class="col-md-12">
-                        <div id="imageHolder"> </div>
-                        <input id="uploadImage" title="Upload an Image" type="file" name="file" />
+                        <button type="submit" class="btn btn-primary" id="editProfilePicture">Save Picture</button>
                     </div>
-                </div>
-                @Html.ValidationMessage("CustomError", new { @class = "text-danger" })
-                <div>@ViewBag.Message</div>
-                @Html.ValidationMessageFor(model => model.PROFILE_PIC, "", new { @class = "text-danger" })
-
-                <button type="submit" class="btn btn-primary" id="editProfilePicture">Save Picture</button>
-            </div>
+                }
+            }
         }
 
+        @{
+            switch (friendshipStatus)
+            {
+
+                case "SENT REQUEST":
+                    <h3>Pending friend request. Cannot add friend anymore</h3>
+                    break;
+                case "CONFIRM REQUEST":
+                    <h1 id="confirmRequest">Confirm friend Request</h1>
+                    <button type="submit" class="btn_confirmFriend btn-primary" onclick="confirmRequest(@Model.ID)" value="@Model.ID">Confirm Request</button>
+                    break;
+                case "NOT FRIENDS":
+                        <h1 id="addFriend">Not friends</h1>
+                        <button type="submit" class="btn_addFriend btn-primary" onclick="addFriend(@Model.ID)" value="@Model.ID">Add Friend</button>
+                    break;
+                case "FRIENDS":
+                    <h1>Friends</h1>
+                    break;
+                case "NO REQUEST":
+                    <h1>No request</h1>
+                    break;
+                default:
+                    break;
+            }
+                
+            }
+      
         <div class="well well-lg">
             <div class="form-group">
                 <h4>DETAILS</h4>
@@ -155,175 +168,247 @@
                 <h4>ABOUT ME</h4>
                 @Model.ABOUT_ME
             </div>
-            <button type="button" class="btn btn-primary" id="editAboutME">Edit About Me</button>
+            @{
+                if (Model.ID == (Int32)Session["ID"])
+                {
+                    <button type="button" class="btn btn-primary" id="editAboutME">Edit About Me</button>
+                }
+            }
+
         </div>
     </div>
-
 
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading text-left">
+                @{
+                    if (Model.PROFILE_PIC == null)
+                    {
+                        <img src="~/Content/images/user.png" class="postPicture" />
+                    }
+                    else
+                    {
+                        var base64 = Convert.ToBase64String(Model.PROFILE_PIC);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                        <img src="@imgSrc" class="postPicture" />
+                    }
+                }
+                <span class="glyphicon glyphicon-pencil"></span>
                 @Model.FIRST_NAME @Model.LAST_NAME
             </div>
-            <div class="panel-body">
-                @Html.TextArea("postContent", null, new { @cols = "80", @rows = "4", placeholder = "What's on your mind?", id = "postContent" })
+                <div class="panel-body">
+                    @Html.TextArea("postContent", null, new { @cols = "80", @rows = "4", placeholder = "What's on your mind?", id = "postContent" })
+                </div>
+                <div class="panel-footer text-left">
+                    <button type="submit" class="btn btn-primary" id="addPost">POST</button>
+                </div>
             </div>
-            <div class="panel-footer text-left">
-                <button type="submit" class="btn btn-primary" id="addPost">POST</button>
-            </div>
+        </div>
+        <div class="col-md-6" id="postRefresh">
+            @{
+                Html.RenderAction("PostList", "PasteBook");
+            }
         </div>
     </div>
 
 
-    <div class="col-md-6" id="postRefresh">
-        @{
-            Html.RenderAction("PostList", "PasteBook");
-        }
-    </div>
-</div>
+    @section Scripts {
+   @Scripts.Render("~/bundles/jqueryval")
+        <script>
+            var addPost = '@Url.Action("AddPost", "PasteBook")'
+            var reloadPostList = '@Url.Action("PostList", "PasteBook")'
+            var addComment = '@Url.Action("AddComment", "PasteBook")'
+            var addLike = '@Url.Action("AddLike", "PasteBook")'
+            var editAboutMe = '@Url.Action("EditAboutMe","PasteBook")'
+            var addFriend = '@Url.Action("AddFriend", "PasteBook")'
+            var acceptFriendRequest = '@Url.Action("ConfirmRequest", "PasteBook")'
 
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-
-    <script>
-        var addPost = '@Url.Action("AddPost", "PasteBook")'
-        var reloadPostList = '@Url.Action("PostList", "PasteBook")'
-        var addComment = '@Url.Action("AddComment", "PasteBook")'
-        var addLike = '@Url.Action("AddLike", "PasteBook")'
-        var editAboutMe = '@Url.Action("EditAboutMe","PasteBook")'
-
-        $(document).ready(function () {
-            //addPost
-            $("#addPost").click(function () {
-                var content = $('#postContent').val();
-                if (content.length > 0) {
-                    var data = {
-                        postContent: $('#postContent').val()
-                    }
-                    $.ajax({
-                        url: addPost,
-                        data: data,
-                        type: 'POST',
-                        success: function (data) {
-                            reload();
-                        },
-                        error: function () {
-                            alert('Something went wrong.')
+            $(document).ready(function () {
+                //addPost
+                $("#addPost").click(function () {
+                    var content = $('#postContent').val();
+                    if (content.length > 0) {
+                        var data = {
+                            postContent: $('#postContent').val()
                         }
-                    });
-                }
-                else {
-                    $('#warning').modal('show');;
-                }
+                        $.ajax({
+                            url: addPost,
+                            data: data,
+                            type: 'POST',
+                            success: function (data) {
+                                reload();
+                            },
+                            error: function () {
+                                alert('Something went wrong.')
+                            }
+                        });
+                    }
+                    else {
+                        $('#warning').modal('show');;
+                    }
 
-            });
+                });
 
-            //refresh contents of the postList partialView
-            function reload() {
-                $("#postRefresh").load(reloadPostList);
-                $("#postContent").val("");
-            };
+                //refresh contents of the postList partialView
+                function reload() {
+                    $("#postRefresh").load(reloadPostList);
+                    $("#postContent").val("");
+                };
 
 
-            //addComment
-            $(document).on("click", ".btn_comment", function () {
-                Content = $('#commentContent').val();
-                if (Content.length > 0) {
+                //addComment
+                $(document).on("click", ".btn_comment", function () {
+                    var Content = $('#commentContent' + $(this).val()).val();
+                    if (Content.length > 0) {
+                        var data = {
+                            commentContent: $('#commentContent' + $(this).val()).val(),
+                            postID: $(this).val(),
+                        }
+
+                        $.ajax({
+                            url: addComment,
+                            data: data,
+                            type: 'POST',
+                            success: function (data) {
+                                reload();
+                            },
+                            error: function () {
+                                alert('Something went wrong')
+                            }
+                        });
+                    }
+                    else {
+                        $('#commentWarning').modal('show');
+                    }
+                });
+
+                //Preview profile picture
+                //stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
+                $("#uploadImage").on('change', function () {
+                    if (typeof (FileReader) != "undefined") {
+                        var image_holder = $("#imageHolder");
+                        image_holder.empty();
+
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("<img />", {
+                                "src": e.target.result,
+                                "class": "thumb-image"
+                            }).appendTo(image_holder);
+                        }
+                        image_holder.show();
+                        reader.readAsDataURL($(this)[0].files[0]);
+                    } else {
+                        alert("This browser does not support FileReader.");
+                    }
+                });
+
+
+                //validating image
+                $('#uploadImage').on('click', function () {
+                    var ext = $('#imageHolder').val().split('.').pop().toLowerCase();
+                    if ($.inArray(ext, ['png', 'jpg', 'jpeg']) == -1) {
+                        alert('invalid extension!');
+                    } else {
+                        $('#editProfilePicture').submit();
+                    }
+                    var fsize = $('#fileButton')[0].files[0].size;
+                    if (fsize > 2097152) {
+                        alert('File size too big!');
+                    }
+                });
+
+                //addLikeToPost
+                $(document).on("click", ".btn_like", function () {
                     var data = {
-                        commentContent: $('#commentContent' + $(this).val()).val(),
                         postID: $(this).val()
                     }
 
                     $.ajax({
-                        url: addComment,
+                        url: addLike,
                         data: data,
                         type: 'POST',
                         success: function (data) {
                             reload();
+
                         },
                         error: function () {
-                            alert('Something went wrong')
+                            alert('something went wrong')
                         }
                     });
-                }
-                else {
-                    $('#commentWarning').modal('show');
-                }
-            });
-
-            //Preview profile picture
-            //stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
-            $("#uploadImage").on('change', function () {
-                if (typeof (FileReader) != "undefined") {
-                    var image_holder = $("#imageHolder");
-                    image_holder.empty();
-
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $("<img />", {
-                            "src": e.target.result,
-                            "class": "thumb-image"
-                        }).appendTo(image_holder);
-                    }
-                    image_holder.show();
-                    reader.readAsDataURL($(this)[0].files[0]);
-                } else {
-                    alert("This browser does not support FileReader.");
-                }
-            });
-
-
-            //search for validating image
-            //insert validation of image here
-
-
-
-            //addLikeToPost
-            $(document).on("click", ".btn_like", function () {
-                var data = {
-                    postID: $(this).val()
-                }
-
-                $.ajax({
-                    url: addLike,
-                    data: data,
-                    type: 'POST',
-                    success: function (data) {
-                        alert("Liked post");
-                    },
-                    error: function () {
-                        alert('something went wrong')
-                    }
                 });
-            });
 
 
-            //logout
-            //stackoverflow.com/questions/12167102/ajax-logout-redirect
-            $("#logoutButton").click(function () {
-                $('#logout').modal('show');
-                $("#sureLogOut").click(function () {
-                    var url = $("#RedirectToIndex").val();
-                    location.href = url;
+                //logout
+                //stackoverflow.com/questions/12167102/ajax-logout-redirect
+                $("#logoutButton").click(function () {
+                    $('#logout').modal('show');
+                    $("#sureLogOut").click(function () {
+                        var url = $("#RedirectToIndex").val();
+                        location.href = url;
+                    })
+
+                    $("#notLogOut").click(function () {
+                        var url = $("#RedirectToProfile").val();
+                        location.href = url;
+                        $("#signUp").hide();
+                    })
+
                 })
 
-                $("#notLogOut").click(function () {
-                    var url = $("#RedirectToProfile").val();
-                    location.href = url;
-                    $("#signUp").hide();
-                })
+                //edit about me
+                $('#editAboutME').click(function () {
+                    $('#editAboutMe').modal('show');
 
-            })
+                });
 
-            //edit about me
-            $('#editAboutME').click(function () {
-                $('#editAboutMe').modal('show');
+                //addFriend
+                $(".btn_addFriend").on("click", function () {
+                    $(".btn_addFriend").prop("disabled", false);
+                    var data = {
+                        visitedProfileID: $(this).val()
+                    }
+
+                    $.ajax({
+                        url: addFriend,
+                        data: data,
+                        type: 'POST',
+                        success: function (data) {
+                            alert("Add Friend");
+                            $(".btn_addFriend").prop("disabled", true);
+                            $('#addFriend').text("Friend Request Sent");
+
+                        },
+                        error: function () {
+                            alert('something went wrong')
+                        }
+                    });
+                });
+
+                //confirm friend request
+                $(".btn_confirmFriend").on("click", function () {
+                    $(".btn_confirmFriend").prop("disabled", false);
+                    var data = {
+                        visitedProfileID: $(this).val()
+                    }
+
+                    $.ajax({
+                        url: acceptFriendRequest,
+                        data: data,
+                        type: 'POST',
+                        success: function (data) {
+                            alert("You are now friends because you accepted the request.");
+                            $(".btn_confirmFriend").prop("disabled", true);
+                            $('#confirmRequest').text("Friend Confirmed");
+
+                        },
+                        error: function () {
+                            alert('something went wrong')
+                        }
+                    });
+                });
 
             });
+        </script>
 
-
-        });
-    </script>
-}
+    }

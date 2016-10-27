@@ -148,6 +148,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\PasteBookController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -164,8 +165,10 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ErrorDesign\ErrorDesign.css" />
     <Content Include="Content\images\1.jpg" />
     <Content Include="Content\images\finallogo.png" />
+    <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\user.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -217,6 +220,9 @@
     <Content Include="Views\PasteBook\SignUp.cshtml" />
     <Content Include="Views\PasteBook\Settings.cshtml" />
     <Content Include="Views\PasteBook\SecurityView.cshtml" />
+    <Content Include="Views\Error\Error404Page.cshtml" />
+    <Content Include="Views\Error\ErrorPage.cshtml" />
+    <Content Include="Views\PasteBook\SearchView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

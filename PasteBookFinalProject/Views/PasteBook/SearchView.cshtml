@@ -1,0 +1,96 @@
+﻿@model IEnumerable<PasteBookEntityFramework.USER>
+
+@Html.Hidden("RedirectToIndex", Url.Action("Logout", "PasteBook"))
+@Html.Hidden("RedirectToSearch", Url.Action("SearchView", "PasteBook"))
+<div class="modal fade" id="logout">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="sureLogOut" type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                <button id="notLogOut" type="button" class="btn btn-warning" data-dismiss="modal">CANCEL</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    @Html.ActionLink("Home", "Home", "PasteBook", null, new { @class = "btn btn-primary btnHome" })<h3>SEARCH</h3>
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="container" id="friendList">
+        <div class="well well-lg">
+            <div class="row">
+                <div class="col-md-10">
+                    <div>
+                        <div class="col-md-6">
+
+                            @{
+                                if (item.PROFILE_PIC == null)
+                                {
+                                    <img src="~/Content/images/user.png" class="friendPicture" />
+                                }
+                                else
+                                {
+                                    var base64 = Convert.ToBase64String(item.PROFILE_PIC);
+                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                    <img src="@imgSrc" class="friendPicture" />
+                                }
+                            }
+
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <h5>Full Name</h5>
+                                <div>
+                                    <h4>
+                                        @item.FIRST_NAME
+                                        @item.LAST_NAME
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Username</h5>
+                                <div>
+                                    <h4>
+                                        @item.USER_NAME
+                                    </h4>
+                                </div>
+                                <div>
+                                    <a href="Profile/?username=@item.USER_NAME">View Profile</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+                                }
+@section Scripts {
+   @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("#logoutButton").click(function () {
+            $('#logout').modal('show');
+            $("#sureLogOut").click(function () {
+                var url = $("#RedirectToIndex").val();
+                location.href = url;
+            });
+
+            $("#notLogOut").click(function () {
+                var url = $("#RedirectToSearch").val();
+                location.href = url;
+            });
+
+        });
+
+    </script>
+}

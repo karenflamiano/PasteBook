@@ -14,14 +14,14 @@
                     poster = post.USER1.FIRST_NAME + " " + post.USER1.LAST_NAME;
                 }
 
-                else 
+                else
                 {
                     poster = post.USER.FIRST_NAME + " " + post.USER.LAST_NAME;
                     profileOwner = post.USER1.FIRST_NAME + " " + post.USER1.LAST_NAME;
                 }
 
 
-                if (post.POSTER_ID == post.PROFILE_OWNER_ID)
+                if (post.PROFILE_OWNER_ID == post.POSTER_ID)
                 {
                     @Html.Label("fullname", poster)
                 }
@@ -30,47 +30,46 @@
                 {
                     if (post.POSTER_ID == (int)Session["ID"])
                     {
-                    @Html.Label("fullname", poster)
+                        @Html.Label("fullname", poster)
                         <span class="glyphicon glyphicon-play"></span>
-                    @Html.Label("fullname", profileOwner)
+                        @Html.Label("fullname", profileOwner)
                     }
                     else
                     {
-                         @Html.Label("fullname", profileOwner)
+                        @Html.Label("fullname", profileOwner)
                         <span class="glyphicon glyphicon-play"></span>
-                         @Html.Label("fullname", poster)
+                        @Html.Label("fullname", poster)
                     }
                 }
             }
 
-            @Html.DisplayFor(modelItem => post.CREATED_DATE);
+            @*//forums.asp.net/t/1656017.aspx?Get+Row+Count+in+Razor+View*@
+            @String.Format("{0: MMM dd, yyyy}", post.CREATED_DATE)
+            
         </div>
-        <div class="panel-body text-left">
+        <div class="panel-body text-left" id="postContent">
             @Html.DisplayFor(modelItem => post.CONTENT)
 
         </div>
         <div class="panel-footer text-left">
             <div>
-                @Html.TextBox("commentContent", null, new { @class = "form-control", placeholder = "Comment here..", id = "commentContent" + @post.ID})
+                @Html.TextBox("commentContent", null, new { @class = "form-control", placeholder = "Comment here..", id = "commentContent" + @post.ID })
             </div>
             @{
                 int numberOfLikes = post.LIKEs.Where(x => x.POST_ID == post.ID).Count();
-                
+                <span class="glyphicon glyphicon-thumbs-up" id="like">@numberOfLikes</span>
                 if (numberOfLikes > 0)
                 {
-                    <span class="glyphicon glyphicon-thumbs-up" id="like">@numberOfLikes</span>
                     <button type="submit" class="btn_unlike btn-danger" onclick="deleteLike(@post.ID)" value="@post.ID">UNLIKE</button>
-
                 }
+
                 else
                 {
-                    <span class="glyphicon glyphicon-thumbs-up"></span>
                     <button type="submit" class="btn_like btn-primary" onclick="addLike(@post.ID)" value="@post.ID">LIKE</button>
                 }
-
+               
             }
-
-            <button type="button" class="btn_comment" onclick="addComment(@post.ID)" value="@post.ID">COMMENT</button>
+            <button type="button" class="btn_comment" value="@post.ID">COMMENT</button>
             <button type="button" class="btn_viewLikers btn-info" onclick="viewLikes(@post.ID)" value="@post.ID">VIEW LIKES</button>
         </div>
 
@@ -80,6 +79,4 @@
             }
         </div>
     </div>
-
-
 }

@@ -2,20 +2,25 @@
 
 @foreach (var item in Model)
 {
-    <div class="panel panel-default" id="comment">
-        <div class="panel-heading text-left">
-            <b>
-                @Html.DisplayFor(modelItem => item.USER.FIRST_NAME)
-                @Html.DisplayFor(modelItem => item.USER.LAST_NAME)
-            </b>
-        </div>
-        <div class="panel-body text-left">
+    <div id="comment">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row" id="commentHeader">
+                    <b>
+                        @Html.DisplayFor(modelItem => item.USER.FIRST_NAME)
+                        @Html.DisplayFor(modelItem => item.USER.LAST_NAME)
+                    </b>
+                   
+                </div>
+                <div class="row" id="commentDate">
+                    @String.Format("{0: MMM dd, yyyy}", item.DATE_CREATED)
+                </div>
+                <div class="row" id="commentContent">
+                    @Html.DisplayFor(modelItem => item.CONTENT)
+                </div>
 
-            @Html.DisplayFor(modelItem => item.CONTENT)
-
+            </div>
         </div>
-        <div class="panel-footer text-left">
-            @Html.DisplayFor(modelItem => item.DATE_CREATED)
-        </div>
+       
     </div>
 }

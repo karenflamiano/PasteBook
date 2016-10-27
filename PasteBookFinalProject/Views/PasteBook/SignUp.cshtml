@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="form-group required">
+            @*<div class="form-group required">
                 <div class="col-md-3 col-md-offset-3">
                     @Html.LabelFor(model => model.COUNTRY_ID, new { @class = "control-label col-md-2" })
                 </div>
@@ -55,7 +55,7 @@
                     @Html.DropDownListFor(model => model.COUNTRY_ID, new SelectList(Model.CountryList, "ID", "COUNTRY"), new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.COUNTRY_ID, "", new { @class = "text-danger" })
                 </div>
-            </div>
+            </div>*@
 
             <div class="form-group required">
                 <div class="col-md-3 col-md-offset-3">
@@ -117,7 +117,7 @@
                 </div>
             </div>
 
-            <div class="form-group required">
+            @*<div class="form-group required">
                 <div class="col-md-4">
                     @Html.LabelFor(model => model.CONFIRM_PASSWORD, new { @class = "control-label col-md-2" })
                 </div>
@@ -125,7 +125,7 @@
                     @Html.EditorFor(model => model.CONFIRM_PASSWORD, new { htmlAttributes = new { @class = "form-control", type = "password" } })
                     @Html.ValidationMessageFor(model => model.CONFIRM_PASSWORD, "", new { @class = "text-danger" })
                 </div>
-            </div>
+            </div>*@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -134,3 +134,4 @@
             </div>
         </div>
     </div>
+}

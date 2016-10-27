@@ -17,17 +17,7 @@ namespace PasteBookDataAccess
             {
                 using (var context = new PASTEBOOKEntities1())
                 {
-                    var ListUser = context.FRIENDs.Where(x => x.USER_ID == ID && x.REQUEST == "Y").ToList();
-                    foreach (var userItem in ListUser)
-                    {
-                        friendList.Add(userItem);
-                    }
-
-                    var ListFriend = context.FRIENDs.Where(x => x.FRIEND_ID == ID && x.REQUEST == "Y").ToList();
-                    foreach (var friendItem in ListFriend)
-                    {
-                        friendList.Add(friendItem);
-                    }
+                    friendList = context.FRIENDs.Where(x => x.USER_ID == ID || x.FRIEND_ID == ID).ToList();
                 }
             }
             catch (Exception ex)
@@ -90,6 +80,33 @@ namespace PasteBookDataAccess
             return friendInformation;
         }
 
+        public int UpdateFriend(int userID, int profileID)
+        {
+            int result = 0;
 
+            try
+            {
+                using (var context = new PASTEBOOKEntities1())
+                {
+                    FRIEND friendTable = context.FRIENDs.Where(x => x.FRIEND_ID == userID && x.USER_ID == profileID).SingleOrDefault();
+
+                    if (friendTable != null)
+                    {
+                        friendTable.REQUEST = "N";
+                        friendTable.CREATED_DATE = DateTime.Now;
+
+                        result = context.SaveChanges();
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                listOfException.Add(ex);
+            }
+            return result;
+
+        }
+        
     }
 }

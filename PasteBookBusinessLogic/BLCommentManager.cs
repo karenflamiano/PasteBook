@@ -1,4 +1,5 @@
 ﻿using PasteBookDataAccess;
+using PasteBookDataAccess.Manager;
 using PasteBookEntityFramework;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace PasteBookBusinessLogic
     public class BLCommentManager
     {
         CommentManager finalComment = new CommentManager();
+        NotificationManager notificationManager = new NotificationManager();
 
         public int AddComment(COMMENT comment)
         {
@@ -23,5 +25,6 @@ namespace PasteBookBusinessLogic
         {
             return finalComment.ListOfComment(ID);
         }
+
     }
 }

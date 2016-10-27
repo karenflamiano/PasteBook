@@ -31,31 +31,41 @@ namespace PasteBookEntityFramework
         
         public int ID { get; set; }
 
-      
+        [Required]
+        [RegularExpression(@"^((\s*([_.]?)\s*[a-zA-Z0-9]+)+([_.]?)\s*)$", ErrorMessage = "{0} should only contain letters, numbers and characters: -,'")]
+        [StringLength(50, ErrorMessage = "{0} must not exceed 50 characters.")]
         public string USER_NAME { get; set; }
 
-       
+        [Required]
+        [StringLength(50, ErrorMessage = "{0} must not exceed 50 characters.")]
+        [DataType(DataType.Password)]
         public string PASSWORD { get; set; }
 
 
         public string SALT { get; set; }
 
-       
+        [Required]
+        [StringLength(50, ErrorMessage = "{0} must not exceed 50 characters.")]
+        [RegularExpression("[a-zA-Z -']*", ErrorMessage = "{0} should only contain letters and characters: -,'")]
         public string FIRST_NAME { get; set; }
 
-       
+        [Required]
+        [StringLength(50, ErrorMessage = "{0} must not exceed 50 characters.")]
+        [RegularExpression("[a-zA-Z -']*", ErrorMessage = "{0} should only contain letters and characters: -,'")]
         public string LAST_NAME { get; set; }
 
-        
+        [Required]
+        [DisplayFormat(DataFormatString = "{0: dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
         public System.DateTime BIRTHDAY { get; set; }
 
         
         public Nullable<int> COUNTRY_ID { get; set; }
 
-        
+        [StringLength(16, MinimumLength = 9, ErrorMessage = "{0} must be between 8 and 15 characters long.")]
         public string MOBILE_NO { get; set; }
 
-       
+        [Required]
         public string GENDER { get; set; }
 
         public byte[] PROFILE_PIC { get; set; }
@@ -65,7 +75,10 @@ namespace PasteBookEntityFramework
 
         public string ABOUT_ME { get; set; }
 
-        
+        [Required]
+        //stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+        [StringLength(254, ErrorMessage = "{0} must not exceed {1} characters.")]
+        [DataType(DataType.EmailAddress)]
         public string EMAIL_ADDRESS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

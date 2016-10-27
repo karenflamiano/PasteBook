@@ -53,6 +53,7 @@
     <Compile Include="Manager\FriendManager.cs" />
     <Compile Include="Manager\CountryManager.cs" />
     <Compile Include="Manager\LikeManager.cs" />
+    <Compile Include="Manager\NotificationManager.cs" />
     <Compile Include="Manager\PasswordManager.cs" />
     <Compile Include="Manager\PostManager.cs" />
     <Compile Include="Manager\UserManager.cs" />

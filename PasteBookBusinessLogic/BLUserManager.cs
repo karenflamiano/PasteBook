@@ -40,27 +40,38 @@ namespace PasteBookBusinessLogic
             return returnValue;
         }
 
-        public bool CheckIfEmailAddressExists(USER user)
-        {
-            bool result = false;
-            if (user.EMAIL_ADDRESS != null)
-            {
-                if (userManager.CheckIfEmailExists(user.EMAIL_ADDRESS))
-                {
-                    result = PasswordInputAndPasswordFromDBMatch(user.EMAIL_ADDRESS, user.PASSWORD);
-                    return result;
-                }
-                else
-                {
-                    return result;
-                }
-            }
-            else
-            {
-                return result;
-            }
-        }
-        
+        //public bool CheckLoginCredentialsUsingEmailAndPassword(string email, string password)
+        //{
+        //    USER user = userDataAccess.GetAllResult().Where(x => x.EMAIL_ADDRESS == email).FirstOrDefault();
+
+        //    bool result = IsPasswordMatch(password, user.SALT, user.PASSWORD);
+
+        //    return result;
+        //}
+
+    
+        //public bool CheckIfEmailAddressAndPasswordMatch(USER user)
+        //{
+        //    bool result = false;
+        //    if (user.EMAIL_ADDRESS != null)
+        //    {
+        //        if (userManager.CheckIfEmailExists(user.EMAIL_ADDRESS))
+        //        {
+        //            result = PasswordInputAndPasswordFromDBMatch(user.EMAIL_ADDRESS, user.PASSWORD);
+        //            return result;
+        //        }
+        //        else
+        //        {
+        //            return result;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return result;
+        //    }
+        //}
+
+
         //used email to retreive the user details, GetAccountEmailAddress
         public bool PasswordInputAndPasswordFromDBMatch(string email, string password)
         {
@@ -69,17 +80,20 @@ namespace PasteBookBusinessLogic
             return result = IsPasswordMatch(password, user.SALT, user.PASSWORD);
         }
 
-
         public bool IsPasswordMatch(string password, string salt, string hash)
         {
             string finalString = password + salt;
             return hash == pwdManager.GetPasswordHash(finalString);
         }
 
-
         public int GetAccountIDUsingEmail(string emailAddress)
         {
             return userManager.GetIDUSingEmailAddress(emailAddress);
+        }
+
+        public int GetAccountIDUsingUsername(string username)
+        {
+            return userManager.GetIDUSingUsername(username);
         }
 
         public bool UploadImage(USER user, HttpPostedFileBase file)
@@ -110,6 +124,28 @@ namespace PasteBookBusinessLogic
             return userManager.GetUserDetailsUsingID(ID);
         }
 
+        public int UpdateUserEmailAndPassword(string email, string password, int ID)
+        {
+            return userManager.UpdateEmailAndPassword(email, password, ID);
+        }
 
+        public int UpdateUserEmail(string email, int ID)
+        {
+            return userManager.UpdateEmail(email, ID);
+        }
+
+        public int UpdateUserPassword(string password, int ID)
+        {
+            return userManager.UpdatePassword(password, ID);
+        }
+
+        public List<USER> SearchUser(string keyword)
+        {
+            List<USER> searchedUser = new List<USER>();
+            searchedUser = userManager.SearchUser(keyword);
+            return searchedUser;
+        }
+
+       
     }
 }

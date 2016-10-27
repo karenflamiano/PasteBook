@@ -38,7 +38,7 @@ namespace PasteBookDataAccess.Manager
             {
                 using (var context = new PASTEBOOKEntities1())
                 {
-                    var result = context.POSTs.Where(x => x.POSTER_ID == userID || x.PROFILE_OWNER_ID == userID).ToList();
+                    listOfPosts = context.POSTs.Where(x => x.POSTER_ID == userID || x.PROFILE_OWNER_ID == userID).ToList();
                 }
             }
             catch (Exception ex)
@@ -61,6 +61,8 @@ namespace PasteBookDataAccess.Manager
                     listOfPosts = context.POSTs.Include("USER").Include("USER1").Include("LIKEs").Where(x => x.POSTER_ID == userID || x.PROFILE_OWNER_ID == userID).ToList();
                     foreach (var item in friendsList)
                     {
+                        var friendsPosts = context.POSTs.Include("USER").Include("USER1").Include("LIKEs").Where(x => x.POSTER_ID == item.ID || x.PROFILE_OWNER_ID == item.ID).ToList();
+
                         if (item.USER_ID == userID)
                         {
                             friendID = item.FRIEND_ID;
@@ -69,8 +71,6 @@ namespace PasteBookDataAccess.Manager
                         {
                             friendID = item.USER_ID;
                         }
-                        
-                        var friendsPosts = context.POSTs.Include("USER").Include("USER1").Include("LIKEs").Where(x => x.POSTER_ID == item.ID || x.PROFILE_OWNER_ID == item.ID).ToList();
 
                         foreach (var friendPost in friendsPosts)
                         {

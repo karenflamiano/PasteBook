@@ -10,18 +10,23 @@ namespace PasteBookBusinessLogic
 {
     public class BLPostManager
     {
-        PostManager finalPost = new PostManager();
+        PostManager postManager = new PostManager();
 
         public int AddPost(POST post)
         {
             int result = 0;
-            result = finalPost.AddPostToDB(post);
+            result = postManager.AddPostToDB(post);
             return result;
         }
         public List<POST> NewsFeedPosts(List<FRIEND> listOfFriend, int userID, int profileOwnerID)
         {
-            return finalPost.NewsFeedListOfPosts(listOfFriend,userID, profileOwnerID);
+            return postManager.NewsFeedListOfPosts(listOfFriend,userID, profileOwnerID);
         }
-        
+
+        public List<POST> TimeLinePosts(int userID)
+        {
+            return postManager.TimelineListOfPosts(userID);
+        }
+
     }
 }
