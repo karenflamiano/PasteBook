@@ -17,10 +17,6 @@ namespace PasteBookBusinessLogic
             result = likeManager.AddLikeToDB(like);
             return result;
         }
-
-        //public List<LIKE> ListOfLike(int ID)
-        //{
-        //    return likeManager.listOfUserLiked(ID);
-        //}
+    
     }
 }

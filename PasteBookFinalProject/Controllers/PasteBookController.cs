@@ -22,7 +22,7 @@ namespace PasteBookFinalProject.Controllers
         BLFriendManager friendManager = new BLFriendManager();
         BLLikeManager likeManager = new BLLikeManager();
 
-        static LoginViewModel mainModel = new LoginViewModel();
+        //static LoginViewModel mainModel = new LoginViewModel();
 
         [HttpGet]
         public ActionResult Index()
@@ -79,8 +79,6 @@ namespace PasteBookFinalProject.Controllers
         {
             string email = model.LoginModel.LoginEmail;
             string password = model.LoginModel.LoginPassword;
-            
-
             if (userManager.CheckIfEmailExists(email))
             {
                 int ID = userManager.GetAccountIDUsingEmail(email);
@@ -97,13 +95,18 @@ namespace PasteBookFinalProject.Controllers
                     Session["ProfilePic"] = userModel.PROFILE_PIC;
                     return RedirectToAction("Home", "PasteBook");
                 }
+                else
+                {
+                    ViewBag.Login = "Error Login";
+                    ModelState.AddModelError("LoginModel.LoginEmail", "Invalid Username or Password");
+                    return RedirectToAction("Index");
+                }
             }
             else
             {
-                ViewBag.Error = "Invalid Username or Password";
+                ModelState.AddModelError("LoginModel.LoginEmail", "Invalid Username or Password");
                 return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
         }
 
         public ActionResult Logout()
@@ -164,20 +167,16 @@ namespace PasteBookFinalProject.Controllers
             int session = (Int32)Session["ID"];
             Session["accountID"] = userManager.GetAccountIDUsingUsername(username);
             
-
-            if ((Int32)Session["accountID"] == session)
+            if ((Int32)Session["accountID"] != session)
             {
-               
                 ViewData["FriendshipStatus"] = friendManager.FriendRequest((Int32)Session["accountID"], session);
                 USER model = userManager.GetUserDetailsUsingID((Int32)Session["accountID"]);
-                Session["ProfilePic"] = model.PROFILE_PIC;
                 return View(model);
             }
             else
             {
-                ViewData["FriendshipStatus"] = friendManager.FriendRequest((Int32)Session["accountID"], session);
+                ViewData["FriendshipStatus"] = friendManager.FriendRequest(session, session);
                 USER model = userManager.GetUserDetailsUsingID((Int32)Session["accountID"]);
-                Session["ProfilePic"] = model.PROFILE_PIC;
                 return View(model);
             }
         }
@@ -212,7 +211,7 @@ namespace PasteBookFinalProject.Controllers
             {
                 USER model = userManager.GetUserDetailsUsingID((Int32)Session["ID"]);
                 userManager.UploadImage(model, file);
-                return RedirectToAction("Profile","PasteBook",model.USER_NAME);
+                return RedirectToAction("Profile", "PasteBook", new { username = model.USER_NAME });
             }
             return View();
         }
@@ -223,49 +222,114 @@ namespace PasteBookFinalProject.Controllers
             {
                 USER model = userManager.GetUserDetailsUsingID((Int32)Session["ID"]);
                 userManager.EditAboutMe(model, aboutMe);
-                return RedirectToAction("Profile");
+                return RedirectToAction("Profile", "PasteBook", new { username = model.USER_NAME });
             }
             return View();
         }
 
         [HttpGet]
-        public ActionResult Settings(USER model)
+        public ActionResult Settings()
         {
+            //List<REF_COUNTRY> listOfCountries = countryManager.GetCountry();
+            //ViewData["Country"] = listOfCountries;
+            //ViewBag.CountryNames = new SelectList(model.REF_COUNTRY, "ID", "Country", selectedCar);
+
+            USER model = new USER();
             int ID = (int)Session["ID"];
             model = userManager.GetUserDetailsUsingID(ID);
             return View(model);
         }
 
-        public ActionResult Security(SecurityModel securityModel)
+        [HttpPost]
+        public ActionResult UpdateUser(USER model)
         {
             int ID = (int)Session["ID"];
-            USER model = userManager.GetUserDetailsUsingID(ID);
+            userManager.EditUserAccount(model, ID);
+            return RedirectToAction("Settings", "PasteBook");
+        }
 
-            bool passwordMatch = userManager.IsPasswordMatch(securityModel.NewPassword, model.SALT, model.PASSWORD);
-            if (passwordMatch && securityModel.EmailAddress != null && securityModel.NewPassword != null)
+        public ActionResult EmailSettings()
+        {
+            int ID = (int)Session["ID"];
+            USER userModel = new USER();
+            userModel = userManager.GetUserDetailsUsingID(ID);
+            SecurityModel model = new SecurityModel();
+            model.EmailAddress = userModel.EMAIL_ADDRESS;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateEmail(SecurityModel model)
+        {
+            USER usermodel = new USER();
+            int ID = (int)Session["ID"];
+            usermodel = userManager.GetUserDetailsUsingID(ID);
+
+            bool isPasswordMatch = userManager.IsPasswordMatch(model.OldPassword, usermodel.SALT, usermodel.PASSWORD);
+            if (isPasswordMatch && model.NewPassword == null && model.EmailAddress != null)
             {
-                //string salt = null;
-                //string hash =
-
-            }
-
-            else if (passwordMatch && securityModel.EmailAddress != null && securityModel.NewPassword == null)
-            {
-                //userManager.UpdateUserEmail(email,ID)
-            }
-
-            else if (passwordMatch && securityModel.EmailAddress == null && securityModel.NewPassword != null)
-            {
-                //userManager.UpdateUserPassword(password,ID)
+                int result = userManager.UpdateUserEmail(model.EmailAddress, ID);
+                if (result == 1)
+                {
+                    ModelState.AddModelError("model.OldPassword", "Succesfully changed Email");
+                    return RedirectToAction("EmailSettings", "PasteBook");
+                    //return View();
+                    //return View("EmailSettings", "PasteBook");
+                }
+                else
+                {
+                    ModelState.AddModelError("model.OldPassword", "Wrong password");
+                    return RedirectToAction("EmailSettings", "PasteBook");
+                    //return View();
+                    //return View("EmailSettings", "PasteBook");
+                }
             }
             else
             {
-                //userManager.UpdateUserEmailAndPassword(email,password,ID)
+                ModelState.AddModelError("model.OldPassword", "Wrong password");
+                return RedirectToAction("EmailSettings", "PasteBook");
+                //return View();
+                //return View("EmailSettings", "PasteBook");
+            }
+        }
+
+        public ActionResult PasswordSettings()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdatePassword(SecurityModel model)
+        {
+            USER usermodel = new USER();
+            int ID = (int)Session["ID"];
+            usermodel = userManager.GetUserDetailsUsingID(ID);
+            bool isPasswordMatch = userManager.IsPasswordMatch(model.OldPassword, usermodel.SALT, usermodel.PASSWORD);
+
+            if (isPasswordMatch && model.NewPassword != null && model.ConfirmNewPassword != null)
+            {
+                string generatedSalt = null;
+                string hash = userManager.GeneratePasswordHash(model.NewPassword, out generatedSalt);
+                string salt = generatedSalt;
+                int result = userManager.UpdateUserPassword(ID, hash, salt);
+                if (result == 1)
+                {
+                    ModelState.AddModelError("model.OldPassword", "Succesfully changed Password");
+                    return RedirectToAction("PasswordSettings", "PasteBook");
+                }
+                else
+                {
+                    return View("PasswordSettings", "PasteBook");
+                }
+
+            }
+            else
+            {
+                return View("PasswordSettings", "PasteBook");
             }
 
-            return View(model);
-
         }
+
 
         public ActionResult Friend(string username)
         {
@@ -308,12 +372,6 @@ namespace PasteBookFinalProject.Controllers
         public JsonResult ConfirmRequest(int visitedProfileID)
         {
             int UserID = (int)Session["ID"];
-            //FRIEND model = new FRIEND();
-            //model.BLOCKED = "N";
-            //model.CREATED_DATE = DateTime.Now;
-            //model.FRIEND_ID = visitedProfileID;
-            //model.USER_ID = UserID;
-            //model.REQUEST = "Y";
             int result = friendManager.ConfirmFriend(UserID, visitedProfileID);
             return Json(new { result = result });
         }

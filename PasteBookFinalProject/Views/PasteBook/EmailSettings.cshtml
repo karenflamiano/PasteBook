@@ -1,0 +1,76 @@
+﻿@model PasteBookFinalProject.Models.SecurityModel
+
+
+@Html.Hidden("RedirectToIndex", Url.Action("Logout", "PasteBook"))
+<div class="modal fade" id="logout">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="sureLogOut" type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">CANCEL</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="settings">
+    <h4>Change Email Address</h4>
+@using (Html.BeginForm("UpdateEmail", "Pastebook", FormMethod.Post))
+{
+
+<div class="col-md-6 col-md-offset-3">
+    <div class="well well-lg">
+        <div class="form-horizontal">
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group required">
+                @Html.LabelFor(model => model.OldPassword, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.OldPassword, new { htmlAttributes = new { @class = "form-control", type="password"} })
+                    @Html.ValidationMessageFor(model => model.OldPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group required">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+
+         </div>
+    </div>
+</div>
+
+}
+</div>
+
+
+    @section scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script>
+            
+
+            //logout
+            //stackoverflow.com/questions/12167102/ajax-logout-redirect
+            $("#logoutButton").click(function () {
+                $('#logout').modal('show');
+                $("#sureLogOut").click(function () {
+                    var url = $("#RedirectToIndex").val();
+                    location.href = url;
+                    $("#signUp").hide();
+                });
+            });
+        </script>
+    }

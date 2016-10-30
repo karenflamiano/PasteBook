@@ -23,10 +23,5 @@ namespace PasteBookBusinessLogic
             return postManager.NewsFeedListOfPosts(listOfFriend,userID, profileOwnerID);
         }
 
-        public List<POST> TimeLinePosts(int userID)
-        {
-            return postManager.TimelineListOfPosts(userID);
-        }
-
     }
 }

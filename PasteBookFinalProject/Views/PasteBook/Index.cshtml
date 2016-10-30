@@ -5,7 +5,8 @@
  {
         <ul class="nav navbar-nav">
             <li class="login">
-                <label id="error">@ViewBag.Error</label>
+                <div>@ViewBag.Login</div> 
+               @Html.ValidationMessageFor(model => model.LoginModel.LoginEmail, "", new { @class = "text-danger" })
             </li>
             <li class="login">
                 @Html.EditorFor(model => model.LoginModel.LoginEmail, new { htmlAttributes = new { @class = "form-control", id = "txtEmailAddress", placeholder = "email@yahoo.com" } })
@@ -19,7 +20,6 @@
         </ul>
     }
 }
-
     <div class="top-content">
         <div class="container">
 
@@ -34,7 +34,7 @@
                             Don't have an account? Feel free to create one.
                         </p>
                         <p>
-                            Fields with * are required fields.
+                            Fields with * are required.
                         </p>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                         <label class="firstAsterisk">*</label>
                     </div>
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.user.FIRST_NAME, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.user.FIRST_NAME, new { @class = "control-label"})
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.user.FIRST_NAME, new { htmlAttributes = new { @class = "form-control ", id = "txtEmail", required = "required" } })
@@ -66,7 +66,7 @@
                         <label class="firstAsterisk">*</label>
                     </div>
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.user.LAST_NAME, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.user.LAST_NAME, new { @class = "control-label"})
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.user.LAST_NAME, new { htmlAttributes = new { @class = "form-control", id = "txtUsername", required = "required" } })
@@ -77,10 +77,10 @@
 
                 <div class="form-group required">
                     <div class="col-md-3">
-                        <label class="firstAsterisk">*</label>
+                        <label class="secondAsterisk">*</label>
                     </div>
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.user.EMAIL_ADDRESS, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.user.EMAIL_ADDRESS, new { @class = "control-label" })
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.user.EMAIL_ADDRESS, new { htmlAttributes = new { @class = "form-control", required = "required" } })
@@ -90,10 +90,10 @@
 
                 <div class="form-group required">
                     <div class="col-md-3">
-                        <label class="firstAsterisk">*</label>
+                        <label class="fourthAsterisk">*</label>
                     </div>
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.user.BIRTHDAY, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.user.BIRTHDAY, new { @class = "control-label" })
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.user.BIRTHDAY, new { htmlAttributes = new { @class = "form-control", @type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") } })
@@ -105,7 +105,7 @@
                     <div class="col-md-3">
                     </div>
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.user.COUNTRY_ID, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.user.COUNTRY_ID, new { @class = "control-label" })
                     </div>
                     <div class="col-md-6">
                         @Html.DropDownListFor(model => model.user.COUNTRY_ID, new SelectList(Model.CountryList, "ID", "COUNTRY"),  new { @class = "form-control"})
@@ -117,7 +117,7 @@
                     <div class="col-md-3">
                     </div>
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.user.MOBILE_NO, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.user.MOBILE_NO, new { @class = "control-label" })
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.user.MOBILE_NO, new { htmlAttributes = new { @class = "form-control", type = "number" } })
@@ -129,7 +129,7 @@
                     <div class="col-md-3">
                     </div>
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.user.GENDER, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.user.GENDER, new { @class = "control-label" })
                     </div>
                     <div class="col-md-6">
                         @Html.DropDownListFor(model => model.user.GENDER, new List<SelectListItem>{
@@ -152,7 +152,7 @@
                         <label class="asterisk">*</label>
                     </div>
                     <div class="col-md-4">
-                        @Html.LabelFor(model => model.user.USER_NAME, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.user.USER_NAME, new { @class = "control-label" })
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.user.USER_NAME, new { htmlAttributes = new { @class = "form-control", required = "required" } })
@@ -165,7 +165,7 @@
                         <label class="asterisk">*</label>
                     </div>
                     <div class="col-md-4">
-                        @Html.LabelFor(model => model.user.PASSWORD, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.user.PASSWORD, new { @class = "control-label" })
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.user.PASSWORD, new { htmlAttributes = new { @class = "form-control", type = "password" , id = "txtNewPassword", required = "required" } })
@@ -175,10 +175,10 @@
 
                 <div class="form-group required">
                     <div class="col-md-2">
-                        <label class="asterisk">*</label>
+                        <label class="fifthAsterisk">*</label>
                     </div>
                     <div class="col-md-4">
-                        @Html.LabelFor(model => model.CONFIRM_PASSWORD, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.CONFIRM_PASSWORD, new { @class = "control-label" })
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.CONFIRM_PASSWORD, new { htmlAttributes = new { @class = "form-control", type="password", id = "txtConfirmPassword", onChange="checkPasswordMatch()", required = "required" } })
@@ -198,16 +198,24 @@
 
 
 @section scripts{
-   
-<script>
    @Scripts.Render("~/bundles/jqueryval")
+<script>
     //stackoverflow.com/questions/21727317/how-to-check-confirm-password-field-in-form-without-reloading-page
     $('#txtNewPassword, #txtConfirmPassword').on('keyup', function () {
-        if ($('#txtNewPassword').val() == $('#txtConfirmPassword').val()) {
-            $('#divCheckPasswordMatch').html('Passwords match.').css('color', 'green');
-        } else
-            $('#divCheckPasswordMatch').html('Passwords do not match!').css('color', 'red');
+        if ($('#txtNewPassword').val() != null && $('#txtNewPassword').val() != '')
+        {
+            if ($('#txtNewPassword').val() == $('#txtConfirmPassword').val())
+            {
+                $('#divCheckPasswordMatch').html('Passwords match.').css('color', 'green');
+            }
+            else
+                $('#divCheckPasswordMatch').html('Passwords do not match!').css('color', 'red');
+        }
+        else 
+        {
+            $('#divCheckPasswordMatch').html("");
+        }
+        
     });
     </script>
-
     }

@@ -50,7 +50,6 @@ namespace PasteBookBusinessLogic
             else if (!friend.Any(x => x.USER_ID == ID && x.FRIEND_ID == accountID))
             {
                 friendshipStatus = "NOT FRIENDS";
-                
             }
             else
             {

@@ -166,30 +166,30 @@ namespace PasteBookDataAccess.Manager
             return updateUserInfo;
         }
 
-        public int UpdateEmailAndPassword(string email, string password, int userID)
-        {
-            int updateEmailAndPassword = 0;
-            try
-            {
-                using (var context = new PASTEBOOKEntities1())
-                {
+        //public int UpdateEmailAndPassword(string email, string password, int userID)
+        //{
+        //    int updateEmailAndPassword = 0;
+        //    try
+        //    {
+        //        using (var context = new PASTEBOOKEntities1())
+        //        {
 
-                    USER record = context.USERs.Where(x => x.ID == userID).SingleOrDefault();
-                    if (record != null)
-                    {
-                        record.EMAIL_ADDRESS = email;
-                        record.PASSWORD = password;
-                        updateEmailAndPassword = context.SaveChanges();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ListOfException.Add(ex);
+        //            USER record = context.USERs.Where(x => x.ID == userID).SingleOrDefault();
+        //            if (record != null)
+        //            {
+        //                record.EMAIL_ADDRESS = email;
+        //                record.PASSWORD = password;
+        //                updateEmailAndPassword = context.SaveChanges();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ListOfException.Add(ex);
 
-            }
-            return updateEmailAndPassword;
-        }
+        //    }
+        //    return updateEmailAndPassword;
+        //}
 
         public int UpdateEmail(string email, int userID)
         {
@@ -215,7 +215,7 @@ namespace PasteBookDataAccess.Manager
             return updateEmail;
         }
 
-        public int UpdatePassword(string password, int userID)
+        public int UpdatePassword(int userID, string hash, string salt)
         {
             int updatePassword = 0;
             try
@@ -226,7 +226,8 @@ namespace PasteBookDataAccess.Manager
                     USER record = context.USERs.Where(x => x.ID == userID).SingleOrDefault();
                     if (record != null)
                     {
-                        record.PASSWORD = password;
+                        record.SALT = salt;
+                        record.PASSWORD = hash;
                         updatePassword = context.SaveChanges();
                     }
                 }

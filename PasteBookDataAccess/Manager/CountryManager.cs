@@ -32,5 +32,22 @@ namespace PasteBookDataAccess.Manager
             }
             return listOfCountries;
         }
+
+        //public string GetCountryBasedOnID(int? CountryID)
+        //{
+        //    string Country = "";
+        //    try
+        //    {
+        //        using (var context = new PASTEBOOKEntities1())
+        //        {
+        //            Country = context.REF_COUNTRY.Where(x => x.ID == CountryID).Select(x => x.COUNTRY).Single();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ListOfException.Add(ex);
+        //    }
+        //    return Country;
+        //}
     }
 }

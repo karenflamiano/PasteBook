@@ -44,26 +44,5 @@ namespace PasteBookDataAccess.Manager
             }
             return listOfLike;
         }
-        
-
-        public int UnlikePost(int postID, int userID)
-        {
-            int result = 0;
-            try
-            {
-                using (var context = new PASTEBOOKEntities1())
-                {
-                    context.POSTs.Where(x => x.ID == postID).SingleOrDefault();
-                    result = context.SaveChanges();
-                    
-                }
-            }
-            catch (Exception ex)
-            {
-                ListOfException.Add(ex);
-            }
-            return result;
-        }
-
     }
 }

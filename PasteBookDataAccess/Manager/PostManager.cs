@@ -31,25 +31,6 @@ namespace PasteBookDataAccess.Manager
             return result;
         }
 
-        public List<POST> TimelineListOfPosts(int userID)
-        {
-            List<POST> listOfPosts = new List<POST>();
-            try
-            {
-                using (var context = new PASTEBOOKEntities1())
-                {
-                    listOfPosts = context.POSTs.Where(x => x.POSTER_ID == userID || x.PROFILE_OWNER_ID == userID).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                ListOfException.Add(ex);
-            }
-            return listOfPosts;
-        }
-        
-
-
         public List<POST> NewsFeedListOfPosts(List<FRIEND> friendsList,int userID, int profileID)
         {
             List<POST> listOfPosts = new List<POST>();

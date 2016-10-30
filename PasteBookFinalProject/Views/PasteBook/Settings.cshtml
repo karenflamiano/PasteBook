@@ -2,7 +2,6 @@
 
 
 @Html.Hidden("RedirectToIndex", Url.Action("Logout", "PasteBook"))
-@Html.Hidden("RedirectToSettings", Url.Action("Settings", "PasteBook"))
 <div class="modal fade" id="logout">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -11,7 +10,7 @@
             </div>
             <div class="modal-footer">
                 <button id="sureLogOut" type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
-                <button id="notLogOut" type="button" class="btn btn-warning" data-dismiss="modal">CANCEL</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">CANCEL</button>
 
             </div>
         </div>
@@ -19,89 +18,97 @@
 </div>
 
 <div class="container" id="settings">
-    <div class="col-md-4">
-        <h4>User Account</h4>
-        <hr />
-    </div>
-    <div class="col-md-8">
-        <div class="form-horizontal">
-            @using (Html.BeginForm("Security", "Pastebook", FormMethod.Post))
-            {
-                @Html.HiddenFor(model => model.ID)
+    <h4>Change Basic Information</h4>
+    @using (Html.BeginForm("UpdateUser", "Pastebook", FormMethod.Post))
+    {
+        <div class="col-md-6">
+            <div class="well well-lg aboutMe">
+                <h4>Required fields</h4>
+                <div class="form-horizontal">
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.USER_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control", } })
-                        @Html.ValidationMessageFor(model => model.USER_NAME, "", new { @class = "text-danger" })
-                        @Html.ValidationMessage("userName", "", new { @class = "text-danger" })
+                    <div class="form-group required">
+                        @Html.LabelFor(model => model.USER_NAME, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control", } })
+                            @Html.ValidationMessageFor(model => model.USER_NAME, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.FIRST_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.FIRST_NAME, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.FIRST_NAME, "", new { @class = "text-danger" })
+                    <div class="form-group required">
+                        @Html.LabelFor(model => model.FIRST_NAME, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.FIRST_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FIRST_NAME, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.LAST_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.LAST_NAME, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.LAST_NAME, "", new { @class = "text-danger" })
+                    <div class="form-group required">
+                        @Html.LabelFor(model => model.LAST_NAME, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.LAST_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LAST_NAME, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BIRTHDAY, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.BIRTHDAY, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.BIRTHDAY, "", new { @class = "text-danger" })
+                    <div class="form-group required">
+                        @Html.LabelFor(model => model.BIRTHDAY, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.BIRTHDAY, new { htmlAttributes = new { @class = "form-control", @type = "date", @Value = Model.BIRTHDAY.ToString("yyyy-MM-dd") } })
+                            @Html.ValidationMessageFor(model => model.BIRTHDAY, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.COUNTRY_ID, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.COUNTRY_ID, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.COUNTRY_ID, "", new { @class = "text-danger" })
-                    </div>
                 </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.MOBILE_NO, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.MOBILE_NO, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.MOBILE_NO, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.GENDER, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.GENDER, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.GENDER, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <button type="submit" class="btn btn-default">NEXT</button>
-                    </div>
-                </div>
-            }
+            </div>
         </div>
 
-    </div>
+        <div class="col-md-6">
+            <div class="well well-lg aboutMe">
 
+                <div class="form-horizontal">
+                    <div class="form-group required">
+                        @Html.LabelFor(model => model.COUNTRY_ID, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.COUNTRY_ID, new { htmlAttributes = new { @class = "form-control" } })
+                            @*@Html.DropDownListFor(model => model.COUNTRY_ID, new SelectList(Model.REF_COUNTRY.COUNTRY, "ID", "COUNTRY", Model.REF_COUNTRY.COUNTRY), new { @class = "form-control" })*@
+                            @Html.ValidationMessageFor(model => model.COUNTRY_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
+                    <div class="form-group required">
+                        @Html.LabelFor(model => model.MOBILE_NO, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.MOBILE_NO, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                            @Html.ValidationMessageFor(model => model.MOBILE_NO, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        @Html.LabelFor(model => model.GENDER, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.GENDER, new List<SelectListItem>{
+                            new SelectListItem{ Text="Male", Value="M"},
+                            new SelectListItem{ Text="Female", Value="F"},
+                            new SelectListItem{ Text="Unspecified", Value="U"}
+                            }, "Select Gender", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.GENDER, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    }
 </div>
 
-
 @section Scripts {
+@Scripts.Render("~/bundles/jqueryval")
     <script>
+       
         //logout
         //stackoverflow.com/questions/12167102/ajax-logout-redirect
         $("#logoutButton").click(function () {
@@ -111,13 +118,6 @@
                 location.href = url;
                 $("#signUp").hide();
             });
-
-            $("#notLogOut").click(function () {
-                var url = $("#RedirectToSettings").val();
-                location.href = url;
-            });
-
         });
     </script>
-@Scripts.Render("~/bundles/jqueryval")
 }

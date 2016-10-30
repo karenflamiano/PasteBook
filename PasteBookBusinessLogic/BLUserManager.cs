@@ -16,7 +16,13 @@ namespace PasteBookBusinessLogic
         UserManager userManager = new UserManager();
         PasswordManager pwdManager = new PasswordManager();
         PasteBookDataAccess<USER> userDataAccess = new PasteBookDataAccess<USER>();
-      
+        
+        public string GeneratePasswordHash(string plainTextPassword, out string salt)
+        {
+            salt = SaltGenerator.GetSaltString();
+            string finalString = plainTextPassword + salt;
+            return pwdManager.GetPasswordHash(finalString);
+        }
 
         public void AddUserAccount(USER user)
         {
@@ -40,39 +46,6 @@ namespace PasteBookBusinessLogic
             return returnValue;
         }
 
-        //public bool CheckLoginCredentialsUsingEmailAndPassword(string email, string password)
-        //{
-        //    USER user = userDataAccess.GetAllResult().Where(x => x.EMAIL_ADDRESS == email).FirstOrDefault();
-
-        //    bool result = IsPasswordMatch(password, user.SALT, user.PASSWORD);
-
-        //    return result;
-        //}
-
-    
-        //public bool CheckIfEmailAddressAndPasswordMatch(USER user)
-        //{
-        //    bool result = false;
-        //    if (user.EMAIL_ADDRESS != null)
-        //    {
-        //        if (userManager.CheckIfEmailExists(user.EMAIL_ADDRESS))
-        //        {
-        //            result = PasswordInputAndPasswordFromDBMatch(user.EMAIL_ADDRESS, user.PASSWORD);
-        //            return result;
-        //        }
-        //        else
-        //        {
-        //            return result;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return result;
-        //    }
-        //}
-
-
-        //used email to retreive the user details, GetAccountEmailAddress
         public bool PasswordInputAndPasswordFromDBMatch(string email, string password)
         {
             bool result;
@@ -124,19 +97,19 @@ namespace PasteBookBusinessLogic
             return userManager.GetUserDetailsUsingID(ID);
         }
 
-        public int UpdateUserEmailAndPassword(string email, string password, int ID)
-        {
-            return userManager.UpdateEmailAndPassword(email, password, ID);
-        }
+        //public int UpdateUserEmailAndPassword(string email, string password, int ID)
+        //{
+        //    return userManager.UpdateEmailAndPassword(email, password, ID);
+        //}
 
         public int UpdateUserEmail(string email, int ID)
         {
             return userManager.UpdateEmail(email, ID);
         }
 
-        public int UpdateUserPassword(string password, int ID)
+        public int UpdateUserPassword( int ID, string hash, string salt)
         {
-            return userManager.UpdatePassword(password, ID);
+            return userManager.UpdatePassword(ID,hash,salt);
         }
 
         public List<USER> SearchUser(string keyword)

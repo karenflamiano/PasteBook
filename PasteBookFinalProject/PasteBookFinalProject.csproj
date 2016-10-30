@@ -153,9 +153,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Managers\MVCManager.cs" />
-    <Compile Include="Mapper\Mapper.cs" />
-    <Compile Include="Models\CountryModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\SecurityModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
@@ -223,6 +220,8 @@
     <Content Include="Views\Error\Error404Page.cshtml" />
     <Content Include="Views\Error\ErrorPage.cshtml" />
     <Content Include="Views\PasteBook\SearchView.cshtml" />
+    <Content Include="Views\PasteBook\EmailSettings.cshtml" />
+    <Content Include="Views\PasteBook\PasswordSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

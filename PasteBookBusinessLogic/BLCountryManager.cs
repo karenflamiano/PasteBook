@@ -10,10 +10,15 @@ namespace PasteBookBusinessLogic
 {
     public class BLCountryManager
     {
+        CountryManager countryManager = new CountryManager();
         public List<REF_COUNTRY> GetCountry()
         {
-            CountryManager countryManager = new CountryManager();
             return countryManager.ListOfCountry();
         }
+
+        //public string GetCountryName(int? CountryID)
+        //{
+        //    return countryManager.GetCountryBasedOnID(CountryID);
+        //}
     }
 }
